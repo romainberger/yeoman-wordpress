@@ -27,10 +27,10 @@ Generator.prototype.createApp = function createApp(cb){
   this.tarball('https://github.com/WordPress/WordPress/tarball/master', 'app', cb);
 }
 
-// generate the gruntfile and package.json
+// generate the files to use Yeoman and the git related files
 Generator.prototype.createYeomanFiles = function createYeomanFiles(){
   this.copy('Gruntfile.js', 'Gruntfile.js');
   this.copy('package.json', 'package.json');
- // this.copy('gitignore', '.gitignore');
-// this.copy('gitattributes', '.gitattributes');
+  this.copy('gitignore', '.gitignore');
+  this.copy('gitattributes', '.gitattributes');
 }
