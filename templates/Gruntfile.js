@@ -18,8 +18,8 @@ module.exports = function( grunt ) {
     // Coffee to JS compilation
     coffee: {
       dist: {
-        src: 'app/scripts/**/*.coffee',
-        dest: 'app/scripts'
+        src: 'app/wp-content/themes/**/js/*.coffee',
+        dest: 'app/wp-content/themes/**/js'
       }
     },
 
@@ -28,10 +28,10 @@ module.exports = function( grunt ) {
       dist: {
         // http://compass-style.org/help/tutorials/configuration-reference/#configuration-properties
         options: {
-          css_dir: 'styles',
-          sass_dir: 'styles',
-          images_dir: 'images',
-          javascripts_dir: 'scripts',
+          css_dir: 'app/wp-content/themes',
+          sass_dir: 'app/wp-content/themes',
+          images_dir: 'app/wp-content/themes/**/images',
+          javascripts_dir: 'app/wp-content/themes/**/js',
           force: true
         }
       }
@@ -55,15 +55,17 @@ module.exports = function( grunt ) {
       },
       compass: {
         files: [
-          'app/styles/**/*.{scss,sass}'
+          'app/wp-content/themes/**/*.{scss,sass}'
         ],
         tasks: 'compass reload'
       },
       reload: {
         files: [
-          'app/wp-content/themes/**/**/*.css',
-          'app/wp-content/themes/**/*.js',
           'app/wp-content/themes/**/*.php',
+          'app/wp-content/themes/**/**/*.css',
+          'app/wp-content/themes/**/js/*.js',
+          'app/wp-content/themes/**/images/*',
+          'app/wp-content/themes/**/images/**/*'
         ],
         tasks: 'reload'
       }
@@ -74,8 +76,7 @@ module.exports = function( grunt ) {
     lint: {
       files: [
         'Gruntfile.js',
-        'app/scripts/**/*.js',
-        'spec/**/*.js'
+        'app/wp-content/themes/**/js/*.js'
       ]
     },
 
@@ -170,7 +171,7 @@ module.exports = function( grunt ) {
     // https://github.com/yeoman/yeoman/issues/250#issuecomment-8024212
     server: {
       port: 35729
-    },
+    }
 
   });
 
