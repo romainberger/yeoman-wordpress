@@ -7,6 +7,11 @@ module.exports = function( grunt ) {
   //
   grunt.initConfig({
 
+    // store the path the theme used to make it a bit easier
+    wordpress: {
+      theme: 'app/wp-content/themes/twentyeleven'
+    },
+
     // Project configuration
     // ---------------------
 
@@ -28,8 +33,8 @@ module.exports = function( grunt ) {
       dist: {
         // http://compass-style.org/help/tutorials/configuration-reference/#configuration-properties
         options: {
-          css_dir: 'app/wp-content/themes',
-          sass_dir: 'app/wp-content/themes',
+          css_dir: '<config:wordpress.theme>',
+          sass_dir: '<config:wordpress.theme>',
           images_dir: 'app/wp-content/themes/**/images',
           javascripts_dir: 'app/wp-content/themes/**/js',
           force: true
@@ -119,16 +124,21 @@ module.exports = function( grunt ) {
     // during the copy process.
 
     // concat css/**/*.css files, inline @import, output a single minified css
+    // TODO: find a way to use the config variable to avoid writing the name of the theme
+    // to make it work with wordpress we need to keep the name 'style.css'
     css: {
-      'styles/main.css': ['styles/**/*.css']
+      'wp-content/themes/twentyeleven/style.css': ['wp-content/themes/twentyeleven/*.css']
     },
+
+    //'styles/main.css': ['styles/**/*.css']
 
     // renames JS/CSS to prepend a hash of their contents for easier
     // versioning
+    // disabled to make it work with wordpress
     rev: {
-      js: 'scripts/**/*.js',
-      css: 'styles/**/*.css',
-      img: 'images/**'
+//      js: 'wp-content/themes/**/js/*.js',
+//      css: 'wp-content/themes/**/*.css',
+      img: 'wp-content/themes/**/images/*.png' // avoid a crash - not sur if this is good https://github.com/yeoman/yeoman/issues/262
     },
 
     // usemin handler should point to the file containing
@@ -163,8 +173,18 @@ module.exports = function( grunt ) {
     rjs: {
       // no minification, is done by the min task
       optimize: 'none',
-      baseUrl: './scripts',
+      baseUrl: './wp-content/themes/**/js',
       wrap: true
+    },
+
+    // While Yeoman handles concat/min when using
+    // usemin blocks, you can still use them manually
+    concat: {
+      dist: ''
+    },
+
+    min: {
+      dist: ''
     },
 
     // server port to match livereload browser extensions
