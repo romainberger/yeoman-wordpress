@@ -1,0 +1,9 @@
+Description:
+    Generate a new Wordpress project which will allow you to use Yeoman
+
+Example:
+	yeoman init wordpress
+
+	This will download Wordpress and prepare everything so you can build a beautiful web app!
+
+	For the complete documentation please go to https://github.com/romainberger/yeoman-wordpress

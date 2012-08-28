@@ -4,7 +4,9 @@
 
 ## Installation
 
-  *(coming soon)*
+  *(To update after the release of Yeoman)*
+
+  Go to the directory where you have cloned Yeoman. `cd` to `cli/lib/generators/` and clone this repo. Once it's done, you can rename the directory to 'wordpress' to make the command a bit shorter (if you keep the name 'yeoman-wordpress' the init task will be `yeoman init yeoman-wordpress`)
 
 ## Documentation
 
@@ -20,3 +22,7 @@
 * 2. Go to the wordpress with the host you created in Mamp or whatever you are using
 * 3. Activate the LiveReload extension by clicking its button in your browser.
 * 4. You're good to go!
+
+### Build
+
+  `$ yeoman build` - *Not 100% working for now (missing: js concatenation)*
