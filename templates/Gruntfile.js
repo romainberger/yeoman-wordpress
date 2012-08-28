@@ -138,7 +138,7 @@ module.exports = function( grunt ) {
     rev: {
 //      js: 'wp-content/themes/**/js/*.js',
 //      css: 'wp-content/themes/**/*.css',
-      img: 'wp-content/themes/**/images/*.png' // avoid a crash - not sur if this is good https://github.com/yeoman/yeoman/issues/262
+      img: 'wp-content/themes/**/images/**'
     },
 
     // usemin handler should point to the file containing
