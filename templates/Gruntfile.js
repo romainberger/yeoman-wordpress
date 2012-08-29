@@ -7,11 +7,6 @@ module.exports = function( grunt ) {
   //
   grunt.initConfig({
 
-    // store the path the theme used to make it a bit easier
-    wordpress: {
-      theme: 'app/wp-content/themes/twentyeleven'
-    },
-
     // Project configuration
     // ---------------------
 
@@ -23,8 +18,8 @@ module.exports = function( grunt ) {
     // Coffee to JS compilation
     coffee: {
       dist: {
-        src: 'app/wp-content/themes/**/js/*.coffee',
-        dest: 'app/wp-content/themes/**/js'
+        src: 'app/wp-content/themes/<%= themeName %>/js/*.coffee',
+        dest: 'app/wp-content/themes/<%= themeName %>/js'
       }
     },
 
@@ -33,10 +28,10 @@ module.exports = function( grunt ) {
       dist: {
         // http://compass-style.org/help/tutorials/configuration-reference/#configuration-properties
         options: {
-          css_dir: '<config:wordpress.theme>',
-          sass_dir: '<config:wordpress.theme>',
-          images_dir: 'app/wp-content/themes/**/images',
-          javascripts_dir: 'app/wp-content/themes/**/js',
+          css_dir: 'app/wp-content/themes/<%= themeName %>',
+          sass_dir: 'app/wp-content/themes/<%= themeName %>',
+          images_dir: 'app/wp-content/themes/<%= themeName %>/images',
+          javascripts_dir: 'app/wp-content/themes/<%= themeName %>/js',
           force: true
         }
       }
@@ -60,17 +55,16 @@ module.exports = function( grunt ) {
       },
       compass: {
         files: [
-          'app/wp-content/themes/**/*.{scss,sass}'
+          'app/wp-content/themes/<%= themeName %>/*.{scss,sass}'
         ],
         tasks: 'compass reload'
       },
       reload: {
         files: [
-          'app/wp-content/themes/**/*.php',
-          'app/wp-content/themes/**/**/*.css',
-          'app/wp-content/themes/**/js/*.js',
-          'app/wp-content/themes/**/images/*',
-          'app/wp-content/themes/**/images/**/*'
+          'app/wp-content/themes/<%= themeName %>/*.php',
+          'app/wp-content/themes/<%= themeName %>/*.css',
+          'app/wp-content/themes/<%= themeName %>/js/*.js',
+          'app/wp-content/themes/<%= themeName %>/images/*'
         ],
         tasks: 'reload'
       }
@@ -81,7 +75,7 @@ module.exports = function( grunt ) {
     lint: {
       files: [
         'Gruntfile.js',
-        'app/wp-content/themes/**/js/*.js'
+        'app/wp-content/themes/<%= themeName %>/js/*.js'
       ]
     },
 
@@ -127,7 +121,7 @@ module.exports = function( grunt ) {
     // TODO: find a way to use the config variable to avoid writing the name of the theme
     // to make it work with wordpress we need to keep the name 'style.css'
     css: {
-      'wp-content/themes/twentyeleven/style.css': ['wp-content/themes/twentyeleven/*.css']
+      'wp-content/themes/<%= themeName %>/style.css': ['wp-content/themes/<%= themeName %>/*.css']
     },
 
     //'styles/main.css': ['styles/**/*.css']
@@ -136,9 +130,9 @@ module.exports = function( grunt ) {
     // versioning
     // disabled to make it work with wordpress
     rev: {
-//      js: 'wp-content/themes/**/js/*.js',
-//      css: 'wp-content/themes/**/*.css',
-      img: 'wp-content/themes/**/images/**'
+//      js: 'wp-content/themes/<%= themeName %>/js/*.js',
+//      css: 'wp-content/themes/<%= themeName %>/*.css',
+      img: 'wp-content/themes/<%= themeName %>/images/**'
     },
 
     // usemin handler should point to the file containing
@@ -173,7 +167,7 @@ module.exports = function( grunt ) {
     rjs: {
       // no minification, is done by the min task
       optimize: 'none',
-      baseUrl: './wp-content/themes/**/js',
+      baseUrl: './wp-content/themes/<%= themeName %>/js',
       wrap: true
     },
 
