@@ -12,7 +12,7 @@
 
 ### Init
 
-  `$ yeoman init wordpress` - Generates a new Wordpress project and the files needed to use Yeoman
+  `$ yeoman init wordpress` - Generates a new Wordpress project with a fresh html5boilerplate theme and the files needed to use Yeoman.
 
 ### Server
 
