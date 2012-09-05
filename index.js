@@ -1,8 +1,10 @@
 
 var util = require('util'),
   path = require('path'),
+  fs = require('fs'),
   yeoman = require('../../../'),
-  grunt = require('grunt');
+  grunt = require('grunt'),
+  rimraf = require('rimraf');
 
 module.exports = Generator;
 
@@ -41,7 +43,8 @@ Generator.prototype.createApp = function createApp(cb){
       self = this;
 
   grunt.log.writeln('Let\'s download the framework, shall we?');
-  this.tarball('https://github.com/WordPress/WordPress/tarball/master', 'app', cb);
+//  this.tarball('https://github.com/WordPress/WordPress/tarball/master', 'app', cb);
+cb();
 }
 
 // remove the basic theme and create a new one
@@ -49,13 +52,34 @@ Generator.prototype.createTheme = function createTheme(){
   var cb = this.async(),
       self = this;
 
-  // remove the themes
-  grunt.log.writeln('I am supposed to clean the themes directory here'.red);
+  grunt.log.writeln('First let\'s remove the built-in themes we will not use');
+  // remove the existing themes
+  fs.readdir('app/wp-content/themes', function(err, files){
+    files.forEach(function(file){
+      var pathFile = fs.realpathSync('app/wp-content/themes/'+file);
+      var isDirectory = fs.statSync(pathFile).isDirectory();
 
-  grunt.log.writeln('Let\'s create a fresh themes full of HTML5 boilerplate awesomeness');
+      if(isDirectory){
+        rimraf(pathFile, function(){
+          grunt.log.writeln('deleting ' + pathFile);
+        });
+      }
+    });
 
-  // create the theme with html5 boilerplate
-  this.tarball('https://github.com/zencoder/html5-boilerplate-for-wordpress/tarball/master', 'app/wp-content/themes/'+self.themeName, cb);
+    grunt.log.writeln('');
+    grunt.log.writeln('Let\'s create a fresh themes full of HTML5 boilerplate awesomeness');
+
+    // create the theme with html5 boilerplate
+    self.tarball('https://github.com/zencoder/html5-boilerplate-for-wordpress/tarball/master', 'app/wp-content/themes/'+self.themeName, cb);
+  });
+}
+
+// rename all the css files to scss
+Generator.prototype.convertFiles = function convertFiles(){
+  var cb = this.async(),
+      self = this;
+
+  cb();
 }
 
 // generate the files to use Yeoman and the git related files
