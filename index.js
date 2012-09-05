@@ -1,8 +1,10 @@
 
 var util = require('util'),
   path = require('path'),
+  fs = require('fs'),
   yeoman = require('../../../'),
-  grunt = require('grunt');
+  grunt = require('grunt'),
+  rimraf = require('rimraf');
 
 module.exports = Generator;
 
@@ -49,13 +51,60 @@ Generator.prototype.createTheme = function createTheme(){
   var cb = this.async(),
       self = this;
 
-  // remove the themes
-  grunt.log.writeln('I am supposed to clean the themes directory here'.red);
+  grunt.log.writeln('First let\'s remove the built-in themes we will not use');
+  // remove the existing themes
+  fs.readdir('app/wp-content/themes', function(err, files){
+    if(typeof files != 'undefined' && files.length != 0){
+      files.forEach(function(file){
+        var pathFile = fs.realpathSync('app/wp-content/themes/'+file);
+        var isDirectory = fs.statSync(pathFile).isDirectory();
 
-  grunt.log.writeln('Let\'s create a fresh themes full of HTML5 boilerplate awesomeness');
+        if(isDirectory){
+          rimraf(pathFile, function(){
+            grunt.log.writeln('Removing ' + pathFile);
+          });
+        }
+      });
+    }
 
-  // create the theme with html5 boilerplate
-  this.tarball('https://github.com/zencoder/html5-boilerplate-for-wordpress/tarball/master', 'app/wp-content/themes/'+self.themeName, cb);
+    grunt.log.writeln('');
+    grunt.log.writeln('Let\'s create a fresh themes full of HTML5 boilerplate awesomeness');
+
+    // create the theme with html5 boilerplate
+    self.tarball('https://github.com/zencoder/html5-boilerplate-for-wordpress/tarball/master', 'app/wp-content/themes/'+self.themeName, cb);
+  });
+}
+
+// rename all the css files to scss
+Generator.prototype.convertFiles = function convertFiles(){
+  var cb = this.async(),
+      self = this;
+
+  // parse recursively a directory and rename the css files to .scss
+  function parseDirectory(path){
+    fs.readdir(path, function(err, files){
+      files.forEach(function(file){
+        var pathFile = fs.realpathSync(path+'/'+file);
+        var isDirectory = fs.statSync(pathFile).isDirectory();
+
+        if(isDirectory){
+          parseDirectory(pathFile);
+        }
+        else{
+          var cssName = /[.]*\.css/i;
+          if(cssName.test(file)){
+            var newName = pathFile.substring(0, pathFile.length - 3) + 'scss';
+            grunt.log.writeln('Renaming ' + pathFile + ' to ' + newName);
+            fs.renameSync(pathFile, newName);
+          }
+        }
+      });
+    });
+  }
+
+  parseDirectory('app/wp-content/themes/'+self.themeName);
+
+  cb();
 }
 
 // generate the files to use Yeoman and the git related files
