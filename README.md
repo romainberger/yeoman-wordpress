@@ -1,18 +1,19 @@
 # Yeoman Wordpress Generator
 
   Generator to use Yeoman on a Wordpress project.
+  For more informations about Yeoman, see [Yeoman.io](http://yeoman.io/)
 
 ## Installation
 
   *(To update after the release of Yeoman)*
 
-  Go to the directory where you have cloned Yeoman. `cd` to `cli/lib/generators/` and clone this repo. Once it's done, you can rename the directory to 'wordpress' to make the command a bit shorter (if you keep the name 'yeoman-wordpress' the init task will be `yeoman init yeoman-wordpress`)
+  Go to the directory where you have cloned Yeoman. `cd` to `cli/lib/generators/` and clone this repo.
 
 ## Documentation
 
 ### Init
 
-  `$ yeoman init wordpress` - Generates a new Wordpress project with a fresh html5boilerplate theme and the files needed to use Yeoman.
+  `$ yeoman init yeoman-wordpress` - Generates a new Wordpress project with a fresh html5boilerplate theme and the files needed to use Yeoman.
 
 ### Server
 
