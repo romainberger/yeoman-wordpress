@@ -60,9 +60,8 @@ Generator.prototype.createTheme = function createTheme(){
         var isDirectory = fs.statSync(pathFile).isDirectory();
 
         if(isDirectory){
-          rimraf(pathFile, function(){
-            grunt.log.writeln('Removing ' + pathFile);
-          });
+          rimraf.sync(pathFile);
+          grunt.log.writeln('Removing ' + pathFile);
         }
       });
     }
