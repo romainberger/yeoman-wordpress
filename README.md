@@ -1,6 +1,7 @@
 # Yeoman Wordpress Generator
 
   Generator to use Yeoman on a Wordpress project.
+  
   For more informations about Yeoman, see [Yeoman.io](http://yeoman.io/)
 
 ## Installation
