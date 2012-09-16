@@ -118,8 +118,6 @@ module.exports = function( grunt ) {
     // during the copy process.
 
     // concat css/**/*.css files, inline @import, output a single minified css
-    // TODO: find a way to use the config variable to avoid writing the name of the theme
-    // to make it work with wordpress we need to keep the name 'style.css'
     css: {
       'wp-content/themes/<%= themeName %>/style.css': ['wp-content/themes/<%= themeName %>/*.css']
     },
