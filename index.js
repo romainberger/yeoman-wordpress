@@ -77,7 +77,8 @@ Generator.prototype.createTheme = function createTheme(){
 // rename all the css files to scss
 Generator.prototype.convertFiles = function convertFiles(){
   var cb = this.async(),
-      self = this;
+      self = this,
+      nbrFiles = 0;
 
   // parse recursively a directory and rename the css files to .scss
   function parseDirectory(path){
@@ -93,14 +94,22 @@ Generator.prototype.convertFiles = function convertFiles(){
           var cssName = /[.]*\.css/i;
           if(cssName.test(file)){
             var newName = pathFile.substring(0, pathFile.length - 3) + 'scss';
-            grunt.log.writeln('Renaming ' + pathFile + ' to ' + newName);
-            fs.renameSync(pathFile, newName);
+//            grunt.log.writeln('Renaming ' + pathFile + ' to ' + newName);
+            // to avoid deleting style.css which is needed to activate the them,
+            // we do not rename but only create another file then copy the content
+            fs.open(newName, 'w', '0666', function() {
+              fs.readFile(pathFile, function (err, data) {
+                if (err) throw err;
+                fs.writeFile(newName, data);
+              });
+            });
           }
         }
       });
     });
   }
 
+  grunt.log.writeln('Renaming the css files to scss');
   parseDirectory('app/wp-content/themes/'+self.themeName);
 
   cb();
@@ -112,11 +121,14 @@ Generator.prototype.createYeomanFiles = function createYeomanFiles(){
   this.copy('package.json', 'package.json');
   this.copy('gitignore', '.gitignore');
   this.copy('gitattributes', '.gitattributes');
+  this.copy('htaccess', 'app/.htaccess');
+  this.copy('index.html', 'app/index.html');
 }
 
 Generator.prototype.endGenerator = function endGenerator(){
   grunt.log.writeln('');
   grunt.log.writeln('Looks like we\'re done!');
-  grunt.log.writeln('Now go back to work!');
+  grunt.log.writeln('Now you just need to install Wordpress the usual way');
+  grunt.log.writeln('Don\'t forget to activate the new theme in the admin panel, and then you can start coding!');
   grunt.log.writeln('');
 }

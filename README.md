@@ -21,4 +21,4 @@
 
 ### Build
 
-  `$ yeoman build` - *Not 100% working for now (missing: js concatenation)*
+  `$ yeoman build` - Build an optimized version of your app, ready to deploy *Still needs some work*
