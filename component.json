@@ -1,18 +1,18 @@
 {
   "name": "yeoman-wordpress",
   "description": "Yeoman generator for Wordpress project",
-  "homepage": "https://github.com/romainberger/shoplifter",
+  "homepage": "https://github.com/romainberger/yeoman-wordpress",
   "author":{
-  	"name": "Romain Berger",
+    "name": "Romain Berger",
     "email": "romain@romainberger.com",
     "url": "http://romainberger.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/romainberger/shoplifter.git"
+    "url": "https://github.com/romainberger/yeoman-wordpress.git"
   },
   "bugs": {
-    "url" : "https://github.com/romainberger/shoplifter/issues",
+    "url" : "https://github.com/romainberger/yeoman-wordpress/issues",
     "email" : "romain@romainberger.com"
   },
   "version": "0.0.1",
