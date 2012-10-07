@@ -4,13 +4,12 @@
 
   For more informations about Yeoman, see [Yeoman.io](http://yeoman.io/)
 
-## Installation
+## Installation (for Yeoman v.0.9.3)
 
   Here is a way to install globally the generator, which means you will be able to use it everywhere (this works on a Mac, I have no idea how this works on Linux or Windows).
   You may need to follow this procedure every time you update Yeoman.
 
-* `cd /usr/local/lib/node_modules/yeoman/lib`
-* Check if there is a directory called `generators`. If not, create it. `cd` into it then run
+* `cd /usr/local/lib/node_modules/yeoman/node_modules/yeoman-generators/lib/generators`
 * `git clone git://github.com/romainberger/yeoman-wordpress.git` (you may need to run this with `sudo`)
 
 ## Documentation

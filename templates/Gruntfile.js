@@ -164,9 +164,12 @@ module.exports = function( grunt ) {
     // setup)
     rjs: {
       // no minification, is done by the min task
+      mainFile: './wp-content/themes/mytheme/footer.php',
       optimize: 'none',
-      baseUrl: './wp-content/themes/<%= themeName %>/js',
-      wrap: true
+      baseUrl: './wp-content/themes/mytheme/js',
+      wrap: true,
+      name: 'main',
+      out: 'wp-content/themes/mytheme/js/script.js'
     },
 
     // While Yeoman handles concat/min when using

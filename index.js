@@ -24,6 +24,12 @@ Generator.prototype.askFor = function askFor(arguments) {
           message: 'Name of the theme you want to use: ',
           default: 'mytheme',
           empty: false
+      },
+      {
+          name: 'includeRequireJS',
+          message: 'Would you like to include RequireJS (for AMD support)?',
+          default: 'Y/n',
+          warning: 'Yes: RequireJS will be placed into the JavaScript vendor directory.'
       }];
 
   this.prompt(prompts, function(e, props) {
@@ -31,7 +37,7 @@ Generator.prototype.askFor = function askFor(arguments) {
 
     // set the property to parse the gruntfile
     self.themeName = props.themeName.replace(/\ /g, '').toLowerCase();
-
+    self.includeRequireJS = (/y/i).test(props.includeRequireJS);
     cb();
   });
 }
@@ -71,6 +77,27 @@ Generator.prototype.createTheme = function createTheme() {
     // create the theme with html5 boilerplate
     self.tarball('https://github.com/zencoder/html5-boilerplate-for-wordpress/tarball/master', 'app/wp-content/themes/'+self.themeName, cb);
   });
+}
+
+// add Require.js if needed
+Generator.prototype.requireJS = function requireJS() {
+  var cb = this.async(),
+      self = this;
+
+  if (self.includeRequireJS) {
+    this.remote('jrburke', 'requirejs', '2.0.5', function(err, remote) {
+      if (err) { return cb(err); }
+
+      fs.mkdir('app/wp-content/themes/'+self.themeName+'/js', function() {
+        remote.copy('require.js', 'app/wp-content/themes/'+self.themeName+'/js/vendors/require.js');
+
+        cb();
+      });
+    });
+  }
+  else {
+    cb();
+  }
 }
 
 // rename all the css files to scss
