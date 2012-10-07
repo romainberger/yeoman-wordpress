@@ -4,6 +4,15 @@
 
   For more informations about Yeoman, see [Yeoman.io](http://yeoman.io/)
 
+## Installation
+
+  Here is a way to install globally the generator, which means you will be able to use it everywhere (this works on a Mac, I have no idea how this works on Linux or Windows).
+  You may need to follow this procedure every time you update Yeoman.
+
+* `cd /usr/local/lib/node_modules/yeoman/lib`
+* Check if there is a directory called `generators`. If not, create it. `cd` into it then run
+* `git clone git://github.com/romainberger/yeoman-wordpress.git` (you may need to run this with `sudo`)
+
 ## Documentation
 
 ### Init
@@ -12,13 +21,13 @@
 
 ### Server
 
-  `$ yeoman server` - Since wordpress is a php framework, the yeoman server task can't be use directly. Here is how you can use it (thanks to @mklabs https://github.com/yeoman/yeoman/issues/250#issuecomment-8024212):
+  `$ yeoman server` - Since wordpress is a php framework, the yeoman server task can't be use directly. Here is how you can use it (thanks to @mklabs https://github.com/yeoman/yeoman/issues/250#issuecomment-8024212 ):
 
-* 1. Start the yeoman server: `yeoman server`. You can close the page it opened, you won't use it.
-* 2. Go to the wordpress with the host you created in Mamp or whatever you are using
-* 3. Activate the LiveReload extension by clicking its button in your browser.
-* 4. You're good to go!
+* Start the yeoman server: `yeoman server`. You can close the page it opened, you won't use it.
+* Go to the wordpress with the host you created in Mamp or whatever you are using
+* Activate the LiveReload extension by clicking its button in your browser.
+* You're good to go!
 
 ### Build
 
-  `$ yeoman build` - Build an optimized version of your app, ready to deploy *Still needs some work*
+  `$ yeoman build` - Build an optimized version of your app, ready to deploy *(Still needs some work)*
