@@ -1,2 +1,0 @@
-# The build fails if Yeoman does not find an index.html file. So we create an empty index.html file but specify here to use index.php
-DirectoryIndex index.php

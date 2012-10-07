@@ -148,7 +148,6 @@ Generator.prototype.createYeomanFiles = function createYeomanFiles() {
   this.copy('gitignore', '.gitignore');
   this.copy('gitattributes', '.gitattributes');
   this.copy('htaccess', 'app/.htaccess');
-  this.copy('index.html', 'app/index.html');
 }
 
 Generator.prototype.endGenerator = function endGenerator() {
