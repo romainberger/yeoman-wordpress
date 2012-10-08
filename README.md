@@ -9,8 +9,8 @@
   Here is a way to install globally the generator, which means you will be able to use it everywhere (this works on a Mac, I have no idea how this works on Linux or Windows).
   You may need to follow this procedure every time you update Yeoman.
 
-* `cd /usr/local/lib/node_modules/yeoman/node_modules/yeoman-generators/lib/generators`
-* `git clone git://github.com/romainberger/yeoman-wordpress.git` (you may need to run this with `sudo`)
+* `$ cd /usr/local/lib/node_modules/yeoman/node_modules/yeoman-generators/lib/generators`
+* `$ git clone git://github.com/romainberger/yeoman-wordpress.git` (you may need to run this with `sudo`)
 
 ## Documentation
 
@@ -22,10 +22,9 @@
 
   `$ yeoman server` - Since wordpress is a php framework, the yeoman server task can't be use directly. Here is how you can use it ([thanks to @mklabs](https://github.com/yeoman/yeoman/issues/250#issuecomment-8024212) ):
 
-* Start the yeoman server: `yeoman server`. You can close the page it opened, you won't use it.
+* Start the yeoman server: `$ yeoman server`. You can close the page it opened, you won't use it.
 * Go to the wordpress with the host you created in Mamp or whatever you are using
 * Activate the LiveReload extension by clicking its button in your browser.
-* You're good to go!
 
 ### Build
 
