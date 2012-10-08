@@ -20,7 +20,7 @@
 
 ### Server
 
-  `$ yeoman server` - Since wordpress is a php framework, the yeoman server task can't be use directly. Here is how you can use it (thanks to @mklabs https://github.com/yeoman/yeoman/issues/250#issuecomment-8024212 ):
+  `$ yeoman server` - Since wordpress is a php framework, the yeoman server task can't be use directly. Here is how you can use it ([thanks to @mklabs](https://github.com/yeoman/yeoman/issues/250#issuecomment-8024212) ):
 
 * Start the yeoman server: `yeoman server`. You can close the page it opened, you won't use it.
 * Go to the wordpress with the host you created in Mamp or whatever you are using
