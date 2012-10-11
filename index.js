@@ -22,8 +22,12 @@ Generator.prototype.askFor = function askFor(arguments) {
   var prompts = [{
           name: 'themeName',
           message: 'Name of the theme you want to use: ',
-          default: 'mytheme',
-          empty: false
+          default: 'mytheme'
+      },
+      {
+          name: 'wordpressVersion',
+          message: 'Which version of Wordpress do you want?',
+          default: '3.4.2'
       },
       {
           name: 'includeRequireJS',
@@ -37,6 +41,7 @@ Generator.prototype.askFor = function askFor(arguments) {
 
     // set the property to parse the gruntfile
     self.themeName = props.themeName.replace(/\ /g, '').toLowerCase();
+    self.wordpressVersion = props.wordpressVersion;
     self.includeRequireJS = (/y/i).test(props.includeRequireJS);
     cb();
   });
@@ -48,7 +53,10 @@ Generator.prototype.createApp = function createApp(cb) {
       self = this;
 
   grunt.log.writeln('Let\'s download the framework, shall we?');
-  this.tarball('https://github.com/WordPress/WordPress/tarball/master', 'app', cb);
+  grunt.log.writeln('Downloading Wordpress version '+self.wordpressVersion);
+
+  // @Todo find a way to get the latest stable release to avoid editing the file every time a new version is out
+  this.tarball('https://github.com/WordPress/WordPress/tarball/'+self.wordpressVersion, 'app', cb);
 }
 
 // remove the basic theme and create a new one
