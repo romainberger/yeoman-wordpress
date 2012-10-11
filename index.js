@@ -25,6 +25,11 @@ Generator.prototype.askFor = function askFor(arguments) {
           default: 'mytheme'
       },
       {
+          name: 'themeBoilerplate',
+          message: 'Starter theme (please provide a github link): ',
+          default: 'https://github.com/automattic/_s'
+      },
+      {
           name: 'wordpressVersion',
           message: 'Which version of Wordpress do you want?',
           default: '3.4.2'
@@ -41,8 +46,23 @@ Generator.prototype.askFor = function askFor(arguments) {
 
     // set the property to parse the gruntfile
     self.themeName = props.themeName.replace(/\ /g, '').toLowerCase();
+    self.themeBoilerplate = props.themeBoilerplate;
     self.wordpressVersion = props.wordpressVersion;
     self.includeRequireJS = (/y/i).test(props.includeRequireJS);
+
+    // check if the user only gave the repo url or the entire url with /tarball/{branch}
+    var tarballLink = (/[.]*tarball\/[.]*/).test(self.themeBoilerplate);
+    if (!tarballLink) {
+      // if the user gave the repo url we add the end of the url. we assume he wants the master branch
+      var lastChar = (/[.]*\//).test(self.themeBoilerplate);
+      if (!lastChar) {
+        self.themeBoilerplate = self.themeBoilerplate+'/tarball/master';
+      }
+      else {
+        self.themeBoilerplate = self.themeBoilerplate+'tarball/master';
+      }
+    }
+
     cb();
   });
 }
@@ -80,10 +100,10 @@ Generator.prototype.createTheme = function createTheme() {
     }
 
     grunt.log.writeln('');
-    grunt.log.writeln('Let\'s create a fresh themes full of HTML5 boilerplate awesomeness');
+    grunt.log.writeln('Now we download the theme');
 
-    // create the theme with html5 boilerplate
-    self.tarball('https://github.com/zencoder/html5-boilerplate-for-wordpress/tarball/master', 'app/wp-content/themes/'+self.themeName, cb);
+    // create the theme
+    self.tarball(self.themeBoilerplate, 'app/wp-content/themes/'+self.themeName, cb);
   });
 }
 
