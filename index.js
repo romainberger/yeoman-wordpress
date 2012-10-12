@@ -54,12 +54,12 @@ Generator.prototype.askFor = function askFor(arguments) {
     var tarballLink = (/[.]*tarball\/[.]*/).test(self.themeBoilerplate);
     if (!tarballLink) {
       // if the user gave the repo url we add the end of the url. we assume he wants the master branch
-      var lastChar = (/[.]*\//).test(self.themeBoilerplate);
-      if (!lastChar) {
-        self.themeBoilerplate = self.themeBoilerplate+'/tarball/master';
+      var lastChar = self.themeBoilerplate.substring(self.themeBoilerplate.length - 1);
+      if (lastChar === '/') {
+        self.themeBoilerplate = self.themeBoilerplate+'tarball/master';
       }
       else {
-        self.themeBoilerplate = self.themeBoilerplate+'tarball/master';
+        self.themeBoilerplate = self.themeBoilerplate+'/tarball/master';
       }
     }
 
