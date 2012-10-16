@@ -20,7 +20,7 @@ util.inherits(Generator, yeoman.generators.NamedBase);
 Generator.prototype.getVersion = function getVersion() {
   var cb = this.async(),
       self = this,
-      latestVersion = '3.4.2';
+      latestVersion = '3.4.2'; // we still store the latest version to avoid throwing error
 
   grunt.log.writeln('');
   grunt.log.writeln('Trying to get the latest stable version of Wordpress');
@@ -28,16 +28,20 @@ Generator.prototype.getVersion = function getVersion() {
   // try to get the latest version using the git tags
   try {
     var version = exec('git ls-remote --tags git://github.com/WordPress/WordPress.git | tail -n 1', function(err, stdout, stderr) {
-                    if (err) return cb(err);
-                    var pattern = /\d\.\d\.\d/ig;
-                    var match = pattern.exec(stdout);
-
-                    if (match !== null) {
-                      self.latestVersion = match[0];
-                      grunt.log.writeln('Latest version: '+self.latestVersion);
+                    if (err) {
+                      self.latestVersion = latestVersion;
                     }
                     else {
-                      self.latestVersion = latestVersion;
+                      var pattern = /\d\.\d\.\d/ig;
+                      var match = pattern.exec(stdout);
+
+                      if (match !== null) {
+                        self.latestVersion = match[0];
+                        grunt.log.writeln('Latest version: '+self.latestVersion);
+                      }
+                      else {
+                        self.latestVersion = latestVersion;
+                      }
                     }
 
                     cb();
