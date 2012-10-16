@@ -1,9 +1,10 @@
 var util = require('util'),
-  path = require('path'),
-  fs = require('fs'),
-  yeoman = require('../../../'),
-  grunt = require('grunt'),
-  rimraf = require('rimraf');
+    path = require('path'),
+    fs = require('fs'),
+    yeoman = require('../../../'),
+    grunt = require('grunt'),
+    rimraf = require('rimraf'),
+    exec = require('child_process').exec;
 
 module.exports = Generator;
 
@@ -14,6 +15,39 @@ function Generator() {
 }
 
 util.inherits(Generator, yeoman.generators.NamedBase);
+
+// get the latest stable version of Wordpress
+Generator.prototype.getVersion = function getVersion() {
+  var cb = this.async(),
+      self = this,
+      latestVersion = '3.4.2';
+
+  grunt.log.writeln('');
+  grunt.log.writeln('Trying to get the latest stable version of Wordpress');
+
+  // try to get the latest version using the git tags
+  try {
+    var version = exec('git ls-remote --tags git://github.com/WordPress/WordPress.git | tail -n 1', function(err, stdout, stderr) {
+                    if (err) return cb(err);
+                    var pattern = /\d\.\d\.\d/ig;
+                    var match = pattern.exec(stdout);
+
+                    if (match !== null) {
+                      self.latestVersion = match[0];
+                      grunt.log.writeln('Latest version: '+self.latestVersion);
+                    }
+                    else {
+                      self.latestVersion = latestVersion;
+                    }
+
+                    cb();
+                  });
+  }
+  catch(e) {
+    self.latestVersion = latestVersion;
+    cb();
+  }
+}
 
 Generator.prototype.askFor = function askFor(arguments) {
   var cb = this.async(),
@@ -32,7 +66,7 @@ Generator.prototype.askFor = function askFor(arguments) {
       {
           name: 'wordpressVersion',
           message: 'Which version of Wordpress do you want?',
-          default: '3.4.2'
+          default: self.latestVersion
       },
       {
           name: 'includeRequireJS',
@@ -74,8 +108,6 @@ Generator.prototype.createApp = function createApp(cb) {
 
   grunt.log.writeln('Let\'s download the framework, shall we?');
   grunt.log.writeln('Downloading Wordpress version '+self.wordpressVersion);
-
-  // @Todo find a way to get the latest stable release to avoid editing the file every time a new version is out
   this.tarball('https://github.com/WordPress/WordPress/tarball/'+self.wordpressVersion, 'app', cb);
 }
 
@@ -131,8 +163,7 @@ Generator.prototype.requireJS = function requireJS() {
 // rename all the css files to scss
 Generator.prototype.convertFiles = function convertFiles() {
   var cb = this.async(),
-      self = this,
-      nbrFiles = 0;
+      self = this;
 
   // parse recursively a directory and rename the css files to .scss
   function parseDirectory(path) {

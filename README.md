@@ -4,7 +4,7 @@
 
   For more informations about Yeoman, see [Yeoman.io](http://yeoman.io/)
 
-## Installation (for Yeoman v.0.9.3)
+## Installation (for Yeoman >= 0.9.3)
 
   Here is a way to install globally the generator, which means you will be able to use it everywhere (this works on a Mac, I have no idea how this works on Linux or Windows).
   You may need to follow this procedure every time you update Yeoman.
@@ -18,7 +18,7 @@
 
   `$ yeoman init yeoman-wordpress` - Generates a new Wordpress project with a starter theme and the files needed to use Yeoman. Once Yeoman is done, install your new wordpress project, and activate the theme in the admin panel.
 
-  Yeoman will ask you which version of Wordpress you want to use (3.4.2 by default).
+  Yeoman will ask you which version of Wordpress you want to use (latest stable version by default).
   The starter theme used is [_s](https://github.com/automattic/_s) but you can specify another theme if you want.
 
 ### Server
