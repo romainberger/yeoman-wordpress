@@ -183,7 +183,6 @@ Generator.prototype.convertFiles = function convertFiles() {
           var cssName = /[.]*\.css/i;
           if (cssName.test(file)) {
             var newName = pathFile.substring(0, pathFile.length - 3) + 'scss';
-//            grunt.log.writeln('Renaming ' + pathFile + ' to ' + newName);
             // to avoid deleting style.css which is needed to activate the them,
             // we do not rename but only create another file then copy the content
             fs.open(newName, 'w', '0666', function() {
