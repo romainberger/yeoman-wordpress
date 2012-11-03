@@ -12,6 +12,14 @@
 * `$ cd /usr/local/lib/node_modules/yeoman/node_modules/yeoman-generators/lib/generators`
 * `$ git clone git://github.com/romainberger/yeoman-wordpress.git` (you may need to run this with `sudo`)
 
+#### Uninstalling
+
+  Here is how to uninstall the generator
+  
+  * `$ cd /usr/local/lib/node_modules/yeoman/node_modules/yeoman-generators/lib/generators`
+  * `$ rm -rf yeoman-wordpress/`
+  
+
 ## Documentation
 
 ### Init
