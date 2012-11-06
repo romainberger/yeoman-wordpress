@@ -189,10 +189,8 @@ Generator.prototype.convertFiles = function convertFiles() {
             fs.open(newName, 'w', '0666', function() {
               fs.readFile(pathFile, 'utf8', function (err, data) {
                 if (err) throw err;
-                // If using default _s theme, insert the given theme name into SCSS files
-                if (self.themeBoilerplate == 'https://github.com/automattic/_s/tarball/master') {
-                  data = data.replace('Theme Name: _s', 'Theme Name: ' + self.themeNameOriginal);
-                }
+                // Insert the given theme name into SCSS files
+                data = data.replace(/^.*Theme Name:.*$/mg, 'Theme Name: ' + self.themeNameOriginal);
                 fs.writeFile(newName, data);
               });
             });
