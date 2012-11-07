@@ -189,9 +189,10 @@ Generator.prototype.convertFiles = function convertFiles() {
             fs.open(newName, 'w', '0666', function() {
               fs.readFile(pathFile, 'utf8', function (err, data) {
                 if (err) throw err;
-                // Insert the given theme name into SCSS files
+                // Insert the given theme name into SCSS and CSS files
                 data = data.replace(/^.*Theme Name:.*$/mg, 'Theme Name: ' + self.themeNameOriginal);
                 fs.writeFile(newName, data);
+                fs.writeFile(pathFile, data);
               });
             });
           }
