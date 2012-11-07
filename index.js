@@ -83,6 +83,7 @@ Generator.prototype.askFor = function askFor(arguments) {
     if(e) { return self.emit('error', e); }
 
     // set the property to parse the gruntfile
+    self.themeNameOriginal = props.themeName;
     self.themeName = props.themeName.replace(/\ /g, '').toLowerCase();
     self.themeBoilerplate = props.themeBoilerplate;
     self.wordpressVersion = props.wordpressVersion;
@@ -186,8 +187,10 @@ Generator.prototype.convertFiles = function convertFiles() {
             // to avoid deleting style.css which is needed to activate the them,
             // we do not rename but only create another file then copy the content
             fs.open(newName, 'w', '0666', function() {
-              fs.readFile(pathFile, function (err, data) {
+              fs.readFile(pathFile, 'utf8', function (err, data) {
                 if (err) throw err;
+                // Insert the given theme name into SCSS files
+                data = data.replace(/^.*Theme Name:.*$/mg, 'Theme Name: ' + self.themeNameOriginal);
                 fs.writeFile(newName, data);
               });
             });
