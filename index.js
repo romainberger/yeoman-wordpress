@@ -58,16 +58,15 @@ Generator.prototype.getConfig = function getConfig() {
   var cb = this.async(),
       self = this;
 
+  self.defaultAuthorName = '';
+  self.defaultAuthorURI = '';
+  self.configExists = false;
+
   try {
     var home = process.env.HOME || process.env.USERPROFILE;
     var configFile = path.join(home, '.yeoman/yeoman-wordpress/config.json');
     fs.readFile(configFile, 'utf8', function(err, data) {
-      if (err) {
-        self.defaultAuthorName = '';
-        self.defaultAuthorURI = '';
-        self.configExists = false;
-      }
-      else {
+      if (!err) {
         var config = JSON.parse(data);
         self.defaultAuthorName = config.authorName;
         self.defaultAuthorURI = config.authorURI;
@@ -78,10 +77,6 @@ Generator.prototype.getConfig = function getConfig() {
     });
   }
   catch(e) {
-    self.defaultAuthorName = '';
-    self.defaultAuthorURI = '';
-    self.configExists = false;
-
     cb();
   }
 }
@@ -155,9 +150,7 @@ Generator.prototype.askFor = function askFor(arguments) {
 
       fs.mkdir(configDirectory, '0777', function() {
         var configFile = path.join(configDirectory, 'config.json');
-        fs.writeFile(configFile, configData, 'utf8', function() {
-          cb();
-        });
+        fs.writeFile(configFile, configData, 'utf8', cb);
       });
     }
     else {
