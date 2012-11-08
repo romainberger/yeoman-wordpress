@@ -60,6 +60,7 @@ Generator.prototype.getConfig = function getConfig() {
 
   self.defaultAuthorName = '';
   self.defaultAuthorURI = '';
+  self.defaultTheme = 'https://github.com/automattic/_s';
   self.configExists = false;
 
   try {
@@ -68,9 +69,14 @@ Generator.prototype.getConfig = function getConfig() {
     fs.readFile(configFile, 'utf8', function(err, data) {
       if (!err) {
         var config = JSON.parse(data);
-        self.defaultAuthorName = config.authorName;
-        self.defaultAuthorURI = config.authorURI;
-        self.configExists = true;
+        self.defaultAuthorName = config.authorName || '';
+        self.defaultAuthorURI = config.authorURI || '';
+        self.defaultTheme = config.theme || self.defaultTheme;
+
+        // if a default value is missing in the config file we re-create it
+        if (config.defaultAuthorName && config.defaultAuthorURI && config.defaultTheme) {
+          self.configExists = true;
+        }
       }
 
       cb();
@@ -93,7 +99,7 @@ Generator.prototype.askFor = function askFor(arguments) {
       {
           name: 'themeBoilerplate',
           message: 'Starter theme (please provide a github link): ',
-          default: 'https://github.com/automattic/_s'
+          default: self.defaultTheme
       },
       {
           name: 'wordpressVersion',
@@ -123,6 +129,7 @@ Generator.prototype.askFor = function askFor(arguments) {
     // set the property to parse the gruntfile
     self.themeNameOriginal = props.themeName;
     self.themeName = props.themeName.replace(/\ /g, '').toLowerCase();
+    self.themeOriginalURL = props.themeBoilerplate;
     self.themeBoilerplate = props.themeBoilerplate;
     self.wordpressVersion = props.wordpressVersion;
     self.includeRequireJS = (/y/i).test(props.includeRequireJS);
@@ -144,7 +151,9 @@ Generator.prototype.askFor = function askFor(arguments) {
 
     // create the config file it does not exists
     if (!self.configExists) {
-      var configData = '{ "authorName": "'+self.authorName+'", "authorURI": "'+self.authorURI+'"}';
+      var configData = '{\n\t// these values are used for the yeoman-wordpress generator\n\t// for more informations see https://github.com/romainberger/yeoman-wordpress\n\t';
+          configData += '"authorName": "'+self.authorName+'",\n\t"authorURI": "'+self.authorURI+'",\n\t';
+          configData += '// please use a github link for the default theme\n\t"theme": "'+self.themeOriginalURL+'"\n}';
       var home = process.env.HOME || process.env.USERPROFILE;
       var configDirectory = path.join(home, '.yeoman/yeoman-wordpress');
 
