@@ -53,6 +53,39 @@ Generator.prototype.getVersion = function getVersion() {
   }
 }
 
+// try to find the config file and read the infos to set the prompts default values
+Generator.prototype.getConfig = function getConfig() {
+  var cb = this.async(),
+      self = this;
+
+  try {
+    var home = process.env.HOME || process.env.USERPROFILE;
+    var configFile = path.join(home, '.yeoman/yeoman-wordpress/config.json');
+    fs.readFile(configFile, 'utf8', function(err, data) {
+      if (err) {
+        self.defaultAuthorName = '';
+        self.defaultAuthorURI = '';
+        self.configExists = false;
+      }
+      else {
+        var config = JSON.parse(data);
+        self.defaultAuthorName = config.authorName;
+        self.defaultAuthorURI = config.authorURI;
+        self.configExists = true;
+      }
+
+      cb();
+    });
+  }
+  catch(e) {
+    self.defaultAuthorName = '';
+    self.defaultAuthorURI = '';
+    self.configExists = false;
+
+    cb();
+  }
+}
+
 Generator.prototype.askFor = function askFor(arguments) {
   var cb = this.async(),
       self = this;
@@ -81,12 +114,12 @@ Generator.prototype.askFor = function askFor(arguments) {
       {
           name: 'authorName',
           message: 'Author name: ',
-          default: ''
+          default: self.defaultAuthorName
       },
       {
           name: 'authorURI',
           message: 'Author URI: ',
-          default: ''
+          default: self.defaultAuthorURI
       }];
 
   this.prompt(prompts, function(e, props) {
@@ -114,7 +147,22 @@ Generator.prototype.askFor = function askFor(arguments) {
       }
     }
 
-    cb();
+    // create the config file it does not exists
+    if (!self.configExists) {
+      var configData = '{ "authorName": "'+self.authorName+'", "authorURI": "'+self.authorURI+'"}';
+      var home = process.env.HOME || process.env.USERPROFILE;
+      var configDirectory = path.join(home, '.yeoman/yeoman-wordpress');
+
+      fs.mkdir(configDirectory, '0777', function() {
+        var configFile = path.join(configDirectory, 'config.json');
+        fs.writeFile(configFile, configData, 'utf8', function() {
+          cb();
+        });
+      });
+    }
+    else {
+      cb();
+    }
   });
 }
 
