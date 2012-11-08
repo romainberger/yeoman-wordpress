@@ -77,6 +77,16 @@ Generator.prototype.askFor = function askFor(arguments) {
           message: 'Would you like to include RequireJS (for AMD support)?',
           default: 'Y/n',
           warning: 'Yes: RequireJS will be placed into the JavaScript vendor directory.'
+      },
+      {
+          name: 'authorName',
+          message: 'Author name: ',
+          default: ''
+      },
+      {
+          name: 'authorURI',
+          message: 'Author URI: ',
+          default: ''
       }];
 
   this.prompt(prompts, function(e, props) {
@@ -88,6 +98,8 @@ Generator.prototype.askFor = function askFor(arguments) {
     self.themeBoilerplate = props.themeBoilerplate;
     self.wordpressVersion = props.wordpressVersion;
     self.includeRequireJS = (/y/i).test(props.includeRequireJS);
+    self.authorName = props.authorName;
+    self.authorURI = props.authorURI;
 
     // check if the user only gave the repo url or the entire url with /tarball/{branch}
     var tarballLink = (/[.]*tarball\/[.]*/).test(self.themeBoilerplate);
@@ -191,6 +203,9 @@ Generator.prototype.convertFiles = function convertFiles() {
                 if (err) throw err;
                 // Insert the given theme name into SCSS and CSS files
                 data = data.replace(/^.*Theme Name:.*$/mg, 'Theme Name: ' + self.themeNameOriginal);
+                data = data.replace(/^.*Author: .*$/mg, 'Author: ' + self.authorName);
+                data = data.replace(/^.*Author URI: .*$/mg, 'Author URI: ' + self.authorURI);
+
                 fs.writeFile(newName, data);
                 fs.writeFile(pathFile, data);
               });
