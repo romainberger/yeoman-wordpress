@@ -151,9 +151,9 @@ Generator.prototype.askFor = function askFor(arguments) {
 
     // create the config file it does not exists
     if (!self.configExists) {
-      var configData = '{\n\t// these values are used for the yeoman-wordpress generator\n\t// for more informations see https://github.com/romainberger/yeoman-wordpress\n\t';
+      var configData = '{\n\t"Configuration":\n\t{\n\t\t"These values are used for the yeoman-wordpress generator": "",\n\t\t"for more informations see https://github.com/romainberger/yeoman-wordpress": "",\n\t\t"If you change the default theme, please use a Github link": ""\n\t},\n\t';
           configData += '"authorName": "'+self.authorName+'",\n\t"authorURI": "'+self.authorURI+'",\n\t';
-          configData += '// please use a github link for the default theme\n\t"theme": "'+self.themeOriginalURL+'"\n}';
+          configData += '"theme": "'+self.themeOriginalURL+'"\n}';
       var home = process.env.HOME || process.env.USERPROFILE;
       var configDirectory = path.join(home, '.yeoman/yeoman-wordpress');
 

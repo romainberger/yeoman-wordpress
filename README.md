@@ -26,7 +26,7 @@
 
   `$ yeoman init yeoman-wordpress` - Generates a new Wordpress project with a starter theme and the files needed to use Yeoman. Once Yeoman is done, install your new wordpress project, and activate the theme in the admin panel.
 
-  Yeoman will ask you which version of Wordpress you want to use (latest stable version by default), the starter theme and a few informations to make the theme ready be to used. Most of the defaults informations can be changed in the [config file](http://github.com/romainberger/yeoman-wordpress#configuration).
+  Yeoman will ask you which version of Wordpress you want to use (latest stable version by default), the starter theme and a few informations to make the theme ready be to used. Most of the defaults informations can be changed in the [config file](#configuration).
 
 ### Server
 
