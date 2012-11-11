@@ -149,7 +149,7 @@ Generator.prototype.askFor = function askFor(arguments) {
       }
     }
 
-    // create the config file it does not exists
+    // create the config file it does not exist
     if (!self.configExists) {
       var configData = '{\n\t"Configuration":\n\t{\n\t\t"These values are used for the yeoman-wordpress generator": "",\n\t\t"for more informations see https://github.com/romainberger/yeoman-wordpress": "",\n\t\t"If you change the default theme, please use a Github link": ""\n\t},\n\t';
           configData += '"authorName": "'+self.authorName+'",\n\t"authorURI": "'+self.authorURI+'",\n\t';
