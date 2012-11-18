@@ -2,10 +2,10 @@ Description:
 	Yeoman generator to create a wordpress project
 
     This generator will download Wordpress and a starter theme.
-    By default the generator uses the latest stable release of Wordpress
-    and the theme _s (https://github.com/automattic/_s) but you can choose
-    a different version and theme (as long as you provide a github link for
-    the theme)
+    Most of the default values for the informations asked when
+    using this generator are stored in a config file you can edit.
+    See https://github.com/romainberger/yeoman-wordpress#configuration
+    for more informations
 
 Example:
 	yeoman init yeoman-wordpress

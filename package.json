@@ -22,5 +22,8 @@
     "yeoman",
     "wordpress",
     "generator"
-  ]
+  ],
+  "scripts": {
+    "install": "python install.py"
+  }
 }

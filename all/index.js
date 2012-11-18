@@ -1,7 +1,7 @@
 var util = require('util'),
     path = require('path'),
     fs = require('fs'),
-    yeoman = require('../../../'),
+    yeoman = require('../../../../'),
     grunt = require('grunt'),
     rimraf = require('rimraf'),
     exec = require('child_process').exec;
