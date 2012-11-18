@@ -14,8 +14,8 @@
 
   If the install script failed, here is how to install it manually:
 
-* `$ cd /usr/local/lib/node_modules/yeoman/node_modules/yeoman-generators/lib/generators`
-* `$ git clone git://github.com/romainberger/yeoman-wordpress.git` (you may need to run this with `sudo`)
+  * `$ cd /usr/local/lib/node_modules/yeoman/node_modules/yeoman-generators/lib/generators`
+  * `$ git clone git://github.com/romainberger/yeoman-wordpress.git` (you may need to run this with `sudo`)
 
 #### Uninstalling
 
