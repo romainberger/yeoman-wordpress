@@ -1,9 +1,10 @@
 /**
- *	Build task for yeoman-wordpress
+ *  Build task for yeoman-wordpress
  *
- *	Inspired by https://github.com/retlehs/roots/tree/grunt
+ *  Inspired by https://github.com/retlehs/roots/tree/grunt
  *
  *  Work in progress, does not work for now !
+ *  This script is dirty as heck for now as I just use it to test on a project.
  */
 
 var fs = require('fs'),
@@ -16,27 +17,46 @@ module.exports = function(grunt) {
     var self = this,
         cb = this.async();
 
-  	// the file where the script / stylesheet are called can be named differently => use a config var in Gruntfile?
-  	var scriptsPhp = 'app/wp-content/themes/mytheme/functions.php';
+    // the file where the script / stylesheet are called can be named differently => use a config var in Gruntfile?
+    var scriptsPhp = 'app/wp-content/themes/mytheme/index.php';
 
-  	// Parse the theme directories to get every *.css and *.js files to apply
-  	// the following process to each files:
-  	// - hash the file
-  	// - perform the replace function for each one
+    // Parse the theme directories to get every *.css and *.js files to apply
+    // the following process to each files:
+    // - hash the file
+    // - perform the replace function for each one
 
     var scriptAbsPath = __dirname;
 
     // CSS files
-  	parseDirectory('./app/wp-content/themes/mytheme', './app/wp-content/themes/mytheme', 'css', function(cssFiles) {
+/*
+    parseDirectory('./app/wp-content/themes/mytheme', './app/wp-content/themes/mytheme', 'css', function(cssFiles) {
       // Hash the CSS
-      console.log(cssFiles);
       for (file in cssFiles) {
-//        var relativePath = path.relative(scriptAbsPath, cssFiles[file]);
-        // var hashCss = grunt.helper('md5', relativePath);
-        // console.log(hashCss);
+        var hashCss = grunt.helper('md5', 'app/wp-content/themes/mytheme/'+cssFiles[file]);
+        console.log(hashCss);
       }
       cb();
-  	});
+    });
+*/
+
+    // JS files
+    parseDirectory('./app/wp-content/themes/mytheme', './app/wp-content/themes/mytheme', 'js', function(jsFiles) {
+      // Hash the js
+      for (file in jsFiles) {
+        var hashJs = grunt.helper('md5', 'app/wp-content/themes/mytheme/'+jsFiles[file]);
+        var baseName = path.basename(jsFiles[file], '.js');
+        var regexJs = new RegExp("(wp_register_script\('"+baseName+"',(\s*[^,]+,){2})\s*[^,]+,\s*([^\)]+)\);");
+
+        fs.readFile(scriptsPhp, 'utf8', function(err, data) {
+          var content = data.replace(regexJs, "\$1 '" + hashJs + "', " + "\$3);");
+          fs.writeFile(scriptsPhp, content, function() {
+            console.log('"' + scriptsPhp + '" updated with new JS versions.');
+            console.log('');
+            cb();
+          });
+        });
+      }
+    });
   });
 
   // Hash the CSS
@@ -53,23 +73,23 @@ module.exports = function(grunt) {
   content = content.replace(regexCss, "\$1 '" + hashCss + "');");
   content = content.replace(regexJs, "\$1 '" + hashJs + "', " + "\$3);");
   fs.writeFile(scriptsPhp, content, function() {
-  	console.log('"' + scriptsPhp + '" updated with new CSS/JS versions.');
-  	console.log('');
+    console.log('"' + scriptsPhp + '" updated with new CSS/JS versions.');
+    console.log('');
   });
  */
 }
 
 /**
- *	Recursively parse the directory to find every files with a given extension and return all the files found
+ *  Recursively parse the directory to find every files with a given extension and return all the files found
  *
  *  @param string originalPath The first path to be parsed. Used to get relative path
- *	@param string pathToFile Path to the directory
- *	@param string ext File extension to find
+ *  @param string pathToFile Path to the directory
+ *  @param string ext File extension to find
  *  @param function cb Callback function
- *	@return array
+ *  @return array
  */
 function parseDirectory(originalPath, pathToFile, ext, cb) {
-	var filesArray = new Array;
+  var filesArray = new Array;
 
   fs.readdir(pathToFile, function(err, files) {
     files.forEach(function(file) {
@@ -84,7 +104,7 @@ function parseDirectory(originalPath, pathToFile, ext, cb) {
         });
       }
       else {
-      	var filePattern = new RegExp('.*\.'+ext, 'i');
+        var filePattern = new RegExp('.*\.'+ext, 'i');
         if (filePattern.test(file)) {
           if (filesArray.indexOf(file) == -1) {
             var finalPath = path.relative(originalPath, pathFile);
