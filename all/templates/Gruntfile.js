@@ -186,11 +186,20 @@ module.exports = function( grunt ) {
     // https://github.com/yeoman/yeoman/issues/250#issuecomment-8024212
     server: {
       port: 35729
+    },
+
+    // Custom yeoman-wordpress build task
+    // Add here the files containing where you register your js files
+    build: {
+      files: ['app/wp-content/themes/mytheme/functions.php']
     }
 
   });
 
   // Alias the `test` task to run the `mocha` task instead
   grunt.registerTask('test', 'mocha');
+
+  // Load the build task
+  grunt.loadNpmTasks('yeoman-wordpress');
 
 };
