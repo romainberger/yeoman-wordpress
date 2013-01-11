@@ -24,15 +24,17 @@ module.exports = function(grunt) {
       }
 
       if (result.length > 0) {
-        // @TODO find the path with the themename !!
         result.forEach(function(file) {
           // rename the file with md5 hash
-          var filePath = path.join('/Users/romainberger/Web/Sites/yeoman/wordpress3/app/wp-content/themes/mytheme', file)
+          var filePath = path.join(process.cwd(), 'app/wp-content/themes/<%= themeName %>', file)
+            , tempPath = path.join(process.cwd(), 'temp/wp-content/themes/<%= themeName %>')
             , md5 = grunt.helper('md5', filePath)
             , renamed = [md5.slice(0, 8), path.basename(filePath)].join('.')
+            , newFilePath = path.resolve(path.dirname(tempPath), renamed)
 
-          // @TODO change the path to the temp folder when renaming the files
-          fs.renameSync(filePath, path.resolve(path.dirname(filePath), renamed))
+          // copy the file to the temp folder with the new name
+          // @TODO this is supposed to work but the temp dir does not exist sooooo...
+          fs.createReadStream(filePath).pipe(fs.createWriteStream(newFilePath));
 
           // @TODO replace the filename in the php file with `renamed`. Be careful to only renamed one file and not every *.js
           // content = content.replace(regScript, renamed);
