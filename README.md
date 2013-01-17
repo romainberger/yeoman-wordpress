@@ -53,7 +53,6 @@
     build: {
       file: ['app/wp-content/themes/mytheme/functions.php']
     }
-
   ```
 
 ## Configuration
