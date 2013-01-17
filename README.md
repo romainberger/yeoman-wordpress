@@ -45,6 +45,17 @@
 
   `$ yeoman build` - Build an optimized version of your app, ready to deploy *(Still needs some work)*
 
+  To take care of the JavaScript files, the build task needs to know where you add the files with the function `wp_register_script()`. To do so, you need to specify the files where you're using this function in the GruntFile.
+
+  ```
+    // Custom yeoman-wordpress build task
+    // Add here the files containing where you register your js files
+    build: {
+      file: ['app/wp-content/themes/mytheme/functions.php']
+    }
+
+  ```
+
 ## Configuration
 
   Yeoman-wordpress stores some defaults values so you won't have to type the same things every time you start a project. The first time you will use the generator it will create a config file with the informations you gave. These informations will be used as default values so you can override them during the init task. If you want to change the default values you can do it by editing the config file located in `~/.yeoman/yeoman-wordpress/config.json`.
