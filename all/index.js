@@ -33,7 +33,7 @@ Generator.prototype.update = function update() {
 Generator.prototype.getVersion = function getVersion() {
   var cb = this.async(),
       self = this,
-      latestVersion = '3.4.2'; // we still store the latest version to avoid throwing error
+      latestVersion = '3.5'; // we still store the latest version to avoid throwing error
 
   grunt.log.writeln('');
   grunt.log.writeln('Trying to get the latest stable version of Wordpress');
@@ -291,6 +291,7 @@ Generator.prototype.createYeomanFiles = function createYeomanFiles() {
   this.copy('package.json', 'package.json');
   this.copy('gitignore', '.gitignore');
   this.copy('gitattributes', '.gitattributes');
+  this.template('build.js', 'node_modules/yeoman-wordpress/tasks/build.js');
 }
 
 Generator.prototype.endGenerator = function endGenerator() {
