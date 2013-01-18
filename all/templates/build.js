@@ -3,11 +3,20 @@
 var fs = require('fs')
   , path = require('path')
   , crypto = require('crypto')
+  , util = require('util')
+  , wrench = require('wrench')
 
 module.exports = function(grunt) {
 
   grunt.registerMultiTask('build', 'Build script for Yeoman Wordpress', function() {
+    grunt.helper('createTemp')
     grunt.helper('parseFile', this.data)
+  })
+
+  grunt.registerHelper('createTemp', function() {
+    // create the temp directory
+    console.log('Copy app to temp')
+    wrench.copyDirSyncRecursive('app', 'temp')
   })
 
   grunt.registerHelper('parseFile', function(files) {
@@ -26,15 +35,18 @@ module.exports = function(grunt) {
       if (result.length > 0) {
         result.forEach(function(file) {
           // rename the file with md5 hash
-          var filePath = path.join(process.cwd(), 'app/wp-content/themes/<%= themeName %>', file)
+          var basePath = path.join(process.cwd(), 'app/wp-content/themes/<%= themeName %>')
             , tempPath = path.join(process.cwd(), 'temp/wp-content/themes/<%= themeName %>')
+            , filePath = path.join(basePath, file)
             , md5 = grunt.helper('md5', filePath)
             , renamed = [md5.slice(0, 8), path.basename(filePath)].join('.')
-            , newFilePath = path.resolve(path.dirname(tempPath), renamed)
+              // get the path to the file from the theme directory
+            , diff = path.dirname(path.relative(basePath, filePath))
+            , newFilePath = path.join(tempPath, diff, renamed)
 
-          // copy the file to the temp folder with the new name
-          // @TODO this is supposed to work but the temp dir does not exist sooooo...
-          fs.createReadStream(filePath).pipe(fs.createWriteStream(newFilePath));
+          // copy the file
+          // for some reason, does not copy the content
+          fs.createReadStream(filePath).pipe(fs.createWriteStream(newFilePath))
 
           // @TODO replace the filename in the php file with `renamed`. Be careful to only renamed one file and not every *.js
           // content = content.replace(regScript, renamed);
