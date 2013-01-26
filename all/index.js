@@ -17,18 +17,6 @@ function Generator() {
 
 util.inherits(Generator, yeoman.generators.NamedBase);
 
-// Upgrade
-/*
-Generator.prototype.update = function update() {
-  var cb = this.async();
-
-  var packagePath = path.join(__dirname, '../package.json');
-  updater.getUpdate({ localPackageUrl: packagePath }, function() {
-    cb();
-  });
-}
-*/
-
 // get the latest stable version of Wordpress
 Generator.prototype.getVersion = function getVersion() {
   var cb = this.async(),
