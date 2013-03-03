@@ -1,7 +1,8 @@
 
 'use strict'
 
-var util = require('util')
+var util   = require('util')
+  , path   = require('path')
   , yeoman = require('yeoman-generator')
 
 module.exports = Generator
@@ -45,7 +46,7 @@ Generator.prototype.askFor = function askFor() {
 Generator.prototype.createPlugin = function createPlugin() {
   var cb   = this.async()
 
-  this.tarball('https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/tarball', 'app/wp-content/plugins', cb)
+  this.tarball('https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/tarball/master', 'app/wp-content/plugins', cb)
 }
 
 Generator.prototype.editFiles = function editFiles() {
