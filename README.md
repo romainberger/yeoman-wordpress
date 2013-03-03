@@ -41,10 +41,6 @@
 * Go to the wordpress with the host you created in Mamp or whatever you are using
 * Activate the LiveReload extension by clicking its button in your browser.
 
-### Build
-
-  `$ yeoman build` - Build an optimized version of your app, ready to deploy *(Still needs some work)*
-
 ## Configuration
 
   Yeoman-wordpress stores some defaults values so you won't have to type the same things every time you start a project. The first time you will use the generator it will create a config file with the informations you gave. These informations will be used as default values so you can override them during the init task. If you want to change the default values you can do it by editing the config file located in `~/.yeoman/yeoman-wordpress/config.json`.

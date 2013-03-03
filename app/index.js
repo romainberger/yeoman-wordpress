@@ -1,11 +1,12 @@
-var util = require('util'),
-    path = require('path'),
-    fs = require('fs'),
-    yeoman = require('../../../../'),
-    grunt = require('grunt'),
+
+'use strict'
+
+var util   = require('util'),
+    path   = require('path'),
+    fs     = require('fs'),
+    yeoman = require('yeoman-generator'),
     rimraf = require('rimraf'),
-    updater = require('../../../../../../lib/plugins/updater'),
-    exec = require('child_process').exec;
+    exec   = require('child_process').exec;
 
 module.exports = Generator;
 
@@ -23,8 +24,8 @@ Generator.prototype.getVersion = function getVersion() {
       self = this,
       latestVersion = '3.5.1'; // we still store the latest version to avoid throwing error
 
-  grunt.log.writeln('');
-  grunt.log.writeln('Trying to get the latest stable version of Wordpress');
+  this.log.writeln('');
+  this.log.writeln('Trying to get the latest stable version of Wordpress');
 
   // try to get the latest version using the git tags
   try {
@@ -38,7 +39,7 @@ Generator.prototype.getVersion = function getVersion() {
 
                       if (match !== null) {
                         self.latestVersion = match[0];
-                        grunt.log.writeln('Latest version: '+self.latestVersion);
+                        self.log.writeln('Latest version: '+self.latestVersion);
                       }
                       else {
                         self.latestVersion = latestVersion;
@@ -88,7 +89,7 @@ Generator.prototype.getConfig = function getConfig() {
   }
 }
 
-Generator.prototype.askFor = function askFor(arguments) {
+Generator.prototype.askFor = function askFor() {
   var cb = this.async(),
       self = this;
 
@@ -174,8 +175,8 @@ Generator.prototype.createApp = function createApp(cb) {
   var cb = this.async(),
       self = this;
 
-  grunt.log.writeln('Let\'s download the framework, shall we?');
-  grunt.log.writeln('Downloading Wordpress version '+self.wordpressVersion);
+  this.log.writeln('Let\'s download the framework, shall we?');
+  this.log.writeln('Downloading Wordpress version '+self.wordpressVersion);
   this.tarball('https://github.com/WordPress/WordPress/tarball/'+self.wordpressVersion, 'app', cb);
 }
 
@@ -184,7 +185,7 @@ Generator.prototype.createTheme = function createTheme() {
   var cb = this.async(),
       self = this;
 
-  grunt.log.writeln('First let\'s remove the built-in themes we will not use');
+  this.log.writeln('First let\'s remove the built-in themes we will not use');
   // remove the existing themes
   fs.readdir('app/wp-content/themes', function(err, files) {
     if (typeof files != 'undefined' && files.length != 0) {
@@ -194,13 +195,13 @@ Generator.prototype.createTheme = function createTheme() {
 
         if (isDirectory) {
           rimraf.sync(pathFile);
-          grunt.log.writeln('Removing ' + pathFile);
+          self.log.writeln('Removing ' + pathFile);
         }
       });
     }
 
-    grunt.log.writeln('');
-    grunt.log.writeln('Now we download the theme');
+    self.log.writeln('');
+    self.log.writeln('Now we download the theme');
 
     // create the theme
     self.tarball(self.themeBoilerplate, 'app/wp-content/themes/'+self.themeName, cb);
@@ -267,7 +268,7 @@ Generator.prototype.convertFiles = function convertFiles() {
     });
   }
 
-  grunt.log.writeln('Renaming the css files to scss');
+  this.log.writeln('Renaming the css files to scss');
   parseDirectory('app/wp-content/themes/'+self.themeName);
 
   cb();
@@ -282,9 +283,9 @@ Generator.prototype.createYeomanFiles = function createYeomanFiles() {
 }
 
 Generator.prototype.endGenerator = function endGenerator() {
-  grunt.log.writeln('');
-  grunt.log.writeln('Looks like we\'re done!');
-  grunt.log.writeln('Now you just need to install Wordpress the usual way');
-  grunt.log.writeln('Don\'t forget to activate the new theme in the admin panel, and then you can start coding!');
-  grunt.log.writeln('');
+  this.log.writeln('');
+  this.log.writeln('Looks like we\'re done!');
+  this.log.writeln('Now you just need to install Wordpress the usual way');
+  this.log.writeln('Don\'t forget to activate the new theme in the admin panel, and then you can start coding!');
+  this.log.writeln('');
 }
