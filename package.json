@@ -1,6 +1,6 @@
 {
   "name": "yeoman-wordpress",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "Yeoman generator for Wordpress project",
   "homepage": "https://github.com/romainberger/yeoman-wordpress",
   "author":{
@@ -17,17 +17,17 @@
     "email" : "romain@romainberger.com"
   },
   "dependencies": {
+    "yeoman-generator": "~0.10.2",
+    "rimraf": "~2.1.4"
   },
   "keywords": [
     "yeoman",
+    "yeoman-generator",
     "wordpress",
     "generator",
     "cli",
     "tool",
     "cms",
     "development"
-  ],
-  "scripts": {
-    "install": "python install.py"
-  }
+  ]
 }
