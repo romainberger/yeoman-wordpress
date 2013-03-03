@@ -2,7 +2,7 @@
 'use strict'
 
 var util = require('util')
-  , yeoman = require('yeoman-generator'),
+  , yeoman = require('yeoman-generator')
 
 module.exports = Generator
 
