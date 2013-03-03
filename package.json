@@ -1,5 +1,5 @@
 {
-  "name": "yeoman-wordpress",
+  "name": "generator-yo-wordpress",
   "version": "1.0.0",
   "description": "Yeoman generator for Wordpress project",
   "homepage": "https://github.com/romainberger/yeoman-wordpress",
