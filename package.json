@@ -20,6 +20,9 @@
     "yeoman-generator": "~0.10.2",
     "rimraf": "~2.1.4"
   },
+  "engines": {
+    "node": ">=0.8.0"
+  },
   "keywords": [
     "yeoman",
     "yeoman-generator",
