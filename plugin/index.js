@@ -50,5 +50,7 @@ Generator.prototype.createPlugin = function createPlugin() {
 }
 
 Generator.prototype.editFiles = function editFiles() {
-  // edit the files to change the author name and whatnot
+  // rename the directory
+  // edit the files to change the author name and plugin name
+  // remove the readme
 }
