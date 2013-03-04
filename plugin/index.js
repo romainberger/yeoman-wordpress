@@ -4,6 +4,7 @@
 var util   = require('util')
   , path   = require('path')
   , yeoman = require('yeoman-generator')
+  , config = require('./../config.js')
 
 module.exports = Generator
 
@@ -14,6 +15,16 @@ function Generator() {
 }
 
 util.inherits(Generator, yeoman.generators.NamedBase)
+
+Generator.prototype.getConfig = function getConfig() {
+  var cb   = this.async()
+    , self = this
+
+  config.getConfig(function(err, data) {
+    self.defaultAuthor = data.authorName
+    cb()
+  })
+}
 
 Generator.prototype.askFor = function askFor() {
   var cb   = this.async()
@@ -27,7 +38,7 @@ Generator.prototype.askFor = function askFor() {
       {
           name: 'pluginAuthor',
           message: 'Author Name: ',
-          default: 'Author'
+          default: self.defaultAuthor
       }]
 
   this.prompt(prompts, function(e, props) {
