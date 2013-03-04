@@ -55,7 +55,7 @@ function createConfig(values, cb) {
 
   var configData = '{\n\t'
   configData += '"authorName": "'+configValues.authorName+'",\n\t"authorURI": "'+configValues.authorURI+'",\n\t'
-  configData += '"theme": "'+configValues.themeOriginalURL+'"\n}'
+  configData += '"theme": "'+configValues.themeUrl+'"\n}'
 
   fs.mkdir(configDirectory, '0777', function() {
     fs.writeFile(configPath, configData, 'utf8', cb)
