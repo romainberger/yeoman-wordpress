@@ -7,6 +7,7 @@ var util   = require('util')
   , yeoman = require('yeoman-generator')
   , rimraf = require('rimraf')
   , exec   = require('child_process').exec
+  , config = require('./../config.js')
 
 module.exports = Generator
 
@@ -65,28 +66,19 @@ Generator.prototype.getConfig = function getConfig() {
   self.defaultTheme = 'https://github.com/automattic/_s'
   self.configExists = false
 
-  try {
-    var home = process.env.HOME || process.env.USERPROFILE
-      , configFile = path.join(home, '.yeoman/yeoman-wordpress/config.json')
-    fs.readFile(configFile, 'utf8', function(err, data) {
-      if (!err) {
-        var config = JSON.parse(data)
-        self.defaultAuthorName = config.authorName || ''
-        self.defaultAuthorURI = config.authorURI || ''
-        self.defaultTheme = config.theme || self.defaultTheme
+  config.getConfig(function(err, data) {
+    if (!err) {
+      self.defaultAuthorName = data.authorName || ''
+      self.defaultAuthorURI = data.authorURI || ''
+      self.defaultTheme = data.theme || self.defaultTheme
 
-        // if a default value is missing in the config file we re-create it
-        if (config.defaultAuthorName && config.defaultAuthorURI && config.defaultTheme) {
-          self.configExists = true
-        }
+      if (data.authorName && data.authorURI && data.defaultTheme) {
+        self.configExists = true
       }
+    }
 
-      cb()
-    })
-  }
-  catch(e) {
     cb()
-  }
+  })
 }
 
 Generator.prototype.askFor = function askFor() {
@@ -153,16 +145,12 @@ Generator.prototype.askFor = function askFor() {
 
     // create the config file it does not exist
     if (!self.configExists) {
-      var configData = '{\n\t"Configuration":\n\t{\n\t\t"These values are used for the yeoman-wordpress generator": "",\n\t\t"for more informations see https://github.com/romainberger/yeoman-wordpress": "",\n\t\t"If you change the default theme, please use a Github link": ""\n\t},\n\t'
-          configData += '"authorName": "'+self.authorName+'",\n\t"authorURI": "'+self.authorURI+'",\n\t'
-          configData += '"theme": "'+self.themeOriginalURL+'"\n}'
-      var home = process.env.HOME || process.env.USERPROFILE
-        , configDirectory = path.join(home, '.yeoman/yeoman-wordpress')
-
-      fs.mkdir(configDirectory, '0777', function() {
-        var configFile = path.join(configDirectory, 'config.json')
-        fs.writeFile(configFile, configData, 'utf8', cb)
-      })
+      var values = {
+        authorName: self.authorName
+      , authorURI:  self.authorURI
+      , themeUrl:   self.themeOriginalURL
+      }
+      config.createConfig(values, cb)
     }
     else {
       cb()
