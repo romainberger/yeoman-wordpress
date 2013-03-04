@@ -1,0 +1,3 @@
+{
+    "directory": "app/wp-content/themes/<%= themeName %>/js"
+}

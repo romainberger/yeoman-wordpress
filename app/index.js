@@ -264,6 +264,7 @@ Generator.prototype.convertFiles = function convertFiles() {
 // generate the files to use Yeoman and the git related files
 Generator.prototype.createYeomanFiles = function createYeomanFiles() {
   this.template('Gruntfile.js')
+  this.template('bowerrc', '.bowerrc')
   this.copy('package.json', 'package.json')
   this.copy('gitignore', '.gitignore')
   this.copy('gitattributes', '.gitattributes')
