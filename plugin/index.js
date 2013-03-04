@@ -3,6 +3,7 @@
 
 var util   = require('util')
   , path   = require('path')
+  , fs     = require('fs')
   , yeoman = require('yeoman-generator')
   , config = require('./../config.js')
 
@@ -55,13 +56,29 @@ Generator.prototype.askFor = function askFor() {
 }
 
 Generator.prototype.createPlugin = function createPlugin() {
-  var cb   = this.async()
+  var cb = this.async()
 
   this.tarball('https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/tarball/master', 'app/wp-content/plugins', cb)
 }
 
 Generator.prototype.editFiles = function editFiles() {
-  // rename the directory
-  // edit the files to change the author name and plugin name
-  // remove the readme
+  var cb   = this.async()
+    , self = this
+
+  // @TODO: make sure the name given does not include spaces or weird characters
+  fs.rename('app/wp-content/plugins/plugin-boilerplate', 'app/wp-content/plugins/'+self.pluginName, function() {
+    var pluginFile = 'app/wp-content/plugins/'+self.pluginName+'/plugin.php'
+
+    fs.readFile(pluginFile, 'utf8', function (err, data) {
+      if (err) throw err
+
+      data = data.replace(/^.*Plugin Name: .*$/mg, 'Plugin Name: ' + self.pluginName)
+      data = data.replace(/^.*Author: .*$/mg, 'Author: ' + self.pluginAuthor)
+
+      fs.writeFile(pluginFile, data)
+      fs.unlink('app/wp-content/plugins/README.md', function() {
+        cb()
+      })
+    })
+  })
 }
