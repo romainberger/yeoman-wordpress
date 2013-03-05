@@ -62,12 +62,12 @@ Generator.prototype.createPlugin = function createPlugin() {
 }
 
 Generator.prototype.editFiles = function editFiles() {
-  var cb   = this.async()
-    , self = this
+  var cb       = this.async()
+    , self     = this
+    , safeName = self.pluginName.replace(/\ /g, '');
 
-  // @TODO: make sure the name given does not include spaces or weird characters
-  fs.rename('app/wp-content/plugins/plugin-boilerplate', 'app/wp-content/plugins/'+self.pluginName, function() {
-    var pluginFile = 'app/wp-content/plugins/'+self.pluginName+'/plugin.php'
+  fs.rename('app/wp-content/plugins/plugin-boilerplate', 'app/wp-content/plugins/'+safeName, function() {
+    var pluginFile = 'app/wp-content/plugins/'+safeName+'/plugin.php'
 
     fs.readFile(pluginFile, 'utf8', function (err, data) {
       if (err) throw err
@@ -81,4 +81,9 @@ Generator.prototype.editFiles = function editFiles() {
       })
     })
   })
+}
+
+Generator.prototype.goodbye = function goodbye() {
+  this.log.writeln('Plugin created successfully')
+  this.log.writeln('')
 }
