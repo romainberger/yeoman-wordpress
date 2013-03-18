@@ -19,7 +19,7 @@ module.exports = function( grunt ) {
     coffee: {
       dist: {
         src: 'app/wp-content/themes/<%= themeName %>/js/*.coffee',
-        dest: 'app/wp-content/themes/<%= themeName %>/js'
+        dest: 'app/wp-content/themes/<%= themeName %>/js/*.js'
       }
     },
 
