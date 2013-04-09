@@ -10,7 +10,7 @@ module.exports = {
 }
 
 var home            = process.env.HOME || process.env.USERPROFILE
-  , configDirectory = path.join(home, '.yeoman/yeoman-wordpress')
+  , configDirectory = path.join(home, '.yeoman-wordpress')
   , configPath      = path.join(configDirectory, 'config.json')
 
 /**
