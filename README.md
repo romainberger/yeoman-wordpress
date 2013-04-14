@@ -6,7 +6,7 @@
 
 ## Installation
 
-  `$ npm install generator-yo-wordpress`
+  `$ npm install -g generator-yo-wordpress`
 
 ## Documentation
 
