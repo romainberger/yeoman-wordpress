@@ -27,12 +27,13 @@ Generator.prototype.getVersion = function getVersion() {
 
   this.log.writeln('')
   this.log.writeln('Trying to get the latest stable version of Wordpress')
+  self.latestVersion = latestVersion
 
   // try to get the latest version using the git tags
   try {
     var version = exec('git ls-remote --tags git://github.com/WordPress/WordPress.git | tail -n 1', function(err, stdout, stderr) {
                     if (err) {
-                      self.latestVersion = latestVersion
+                      cb()
                     }
                     else {
                       var pattern = /\d\.\d[\.\d]*/ig
@@ -42,16 +43,12 @@ Generator.prototype.getVersion = function getVersion() {
                         self.latestVersion = match[0]
                         self.log.writeln('Latest version: '+self.latestVersion)
                       }
-                      else {
-                        self.latestVersion = latestVersion
-                      }
                     }
 
                     cb()
                   })
   }
   catch(e) {
-    self.latestVersion = latestVersion
     cb()
   }
 }
