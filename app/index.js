@@ -84,13 +84,16 @@ Generator.prototype.askFor = function askFor() {
 
   var prompts = [{
           name: 'themeName',
-          message: 'Name of the theme you want to use: ',
+          message: 'Name of the theme you want to use',
           default: 'mytheme'
       },
       {
           name: 'themeBoilerplate',
-          message: 'Starter theme (please provide a github link): ',
-          default: self.defaultTheme
+          message: 'Starter theme (please provide a github link)',
+          default: self.defaultTheme,
+          filter: function (input) {
+            return input.replace(/\ /g, '').toLowerCase()
+          }
       },
       {
           name: 'wordpressVersion',
@@ -98,32 +101,29 @@ Generator.prototype.askFor = function askFor() {
           default: self.latestVersion
       },
       {
+          type: 'confirm',
           name: 'includeRequireJS',
-          message: 'Would you like to include RequireJS (for AMD support)?',
-          default: 'Y/n',
-          warning: 'Yes: RequireJS will be placed into the JavaScript vendor directory.'
+          message: 'Would you like to include RequireJS (for AMD support)?'
       },
       {
           name: 'authorName',
-          message: 'Author name: ',
+          message: 'Author name',
           default: self.defaultAuthorName
       },
       {
           name: 'authorURI',
-          message: 'Author URI: ',
+          message: 'Author URI',
           default: self.defaultAuthorURI
       }]
 
-  this.prompt(prompts, function(e, props) {
-    if(e) { return self.emit('error', e) }
-
+  this.prompt(prompts, function(props) {
     // set the property to parse the gruntfile
     self.themeNameOriginal = props.themeName
-    self.themeName = props.themeName.replace(/\ /g, '').toLowerCase()
+    self.themeName = props.themeName
     self.themeOriginalURL = props.themeBoilerplate
     self.themeBoilerplate = props.themeBoilerplate
     self.wordpressVersion = props.wordpressVersion
-    self.includeRequireJS = (/y/i).test(props.includeRequireJS)
+    self.includeRequireJS = props.includeRequireJS
     self.authorName = props.authorName
     self.authorURI = props.authorURI
 
