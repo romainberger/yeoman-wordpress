@@ -42,16 +42,11 @@ Generator.prototype.askFor = function askFor() {
           default: self.defaultAuthor
       }]
 
-  this.prompt(prompts, function(e, props) {
-    if(e) {
-      return self.emit('error', e)
-    }
-
+  this.prompt(prompts, function(props) {
     self.pluginName   = props.pluginName
     self.pluginAuthor = props.pluginAuthor
 
     cb()
-
   })
 }
 
