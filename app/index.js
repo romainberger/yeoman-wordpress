@@ -21,7 +21,7 @@ util.inherits(Generator, yeoman.generators.NamedBase)
 
 // get the latest stable version of Wordpress
 Generator.prototype.getVersion = function getVersion() {
-  var cb = this.async()
+  var cb   = this.async()
     , self = this
     , latestVersion = '3.5.1' // we still store the latest version to avoid throwing error
 
