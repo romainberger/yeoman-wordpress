@@ -18,7 +18,7 @@
 
 ### Plugin
 
-  `$ yo yo-wordpress:plugin` - Generates a plugin with [WordPress Plugin Boilerplate](https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/tree/master/plugin-boilerplate).
+  `$ yo yo-wordpress:plugin` - Generates a plugin with [WordPress Plugin Boilerplate](https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate).
 
 ## Configuration
 
