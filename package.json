@@ -1,6 +1,6 @@
 {
   "name": "generator-yo-wordpress",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Yeoman generator for Wordpress project",
   "homepage": "https://github.com/romainberger/yeoman-wordpress",
   "author":{
