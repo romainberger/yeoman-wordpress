@@ -1,8 +1,8 @@
 # Yeoman WordPress Generator
 
-  Generator to use Yeoman on a WordPress project.
+  Yeoman generator for WordPress projects and plugins.
 
-  For more informations about Yeoman, see [Yeoman.io](http://yeoman.io/)
+  For more informations about Yeoman, see [Yeoman.io](http://yeoman.io/).
 
 ## Installation
 

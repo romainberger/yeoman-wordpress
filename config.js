@@ -5,8 +5,8 @@ var path = require('path')
   , fs   = require('fs')
 
 module.exports = {
-  getConfig: getConfig
-, createConfig: createConfig
+    getConfig: getConfig
+  , createConfig: createConfig
 }
 
 var home            = process.env.HOME || process.env.USERPROFILE
@@ -42,15 +42,15 @@ function getConfig(cb) {
  */
 function createConfig(values, cb) {
   var defaults = {
-    authorName: ''
-  , authorURI:  ''
-  , themeUrl:   'https://github.com/automattic/_s'
+      authorName: ''
+    , authorURI:  ''
+    , themeUrl:   'https://github.com/automattic/_s'
   }
 
   var configValues = {
-    authorName: values.authorName || defaults.authorName
-  , authorURI:  values.authorURI || defaults.authorURI
-  , themeUrl:   values.themeUrl || defaults.themeUrl
+      authorName: values.authorName || defaults.authorName
+    , authorURI:  values.authorURI || defaults.authorURI
+    , themeUrl:   values.themeUrl || defaults.themeUrl
   }
 
   var configData = '{\n\t'
