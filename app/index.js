@@ -39,7 +39,7 @@ Generator.prototype.getVersion = function getVersion() {
                       var pattern = /\d\.\d[\.\d]*/ig
                         , match = pattern.exec(stdout)
 
-                      if (match !== null) {
+                      if (match !== null && typeof match[0] !== 'undefined') {
                         self.latestVersion = match[0]
                         self.log.writeln('Latest version: '+self.latestVersion)
                       }
