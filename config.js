@@ -83,8 +83,6 @@ function updateWordpressVersion(version) {
       , latestVersion: version
     }
 
-    createConfig(newValues, function() {
-      console.log('done')
-    })
+    createConfig(newValues)
   })
 }

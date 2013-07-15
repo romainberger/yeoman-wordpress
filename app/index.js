@@ -7,6 +7,7 @@ var util   = require('util')
   , yeoman = require('yeoman-generator')
   , rimraf = require('rimraf')
   , exec   = require('child_process').exec
+  , semver = require('semver')
   , config = require('./../config.js')
 
 module.exports = Generator
@@ -60,7 +61,7 @@ Generator.prototype.getVersion = function getVersion() {
 
                       if (match !== null && typeof match[0] !== 'undefined') {
                         // update config if needed
-                        if (self.latestVersion !== match[0]) {
+                        if (semver.gt(match[0], self.latestVersion)) {
                           self.log.writeln('Updating config with latest version: '+match[0])
                           config.updateWordpressVersion(match[0])
                         }
