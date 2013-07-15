@@ -19,15 +19,36 @@ function Generator() {
 
 util.inherits(Generator, yeoman.generators.NamedBase)
 
+// try to find the config file and read the infos to set the prompts default values
+Generator.prototype.getConfig = function getConfig() {
+  var cb   = this.async()
+    , self = this
+
+  self.configExists = false
+
+  config.getConfig(function(err, data) {
+    if (!err) {
+      self.configExists = true
+    }
+
+    console.log(data)
+
+    self.defaultAuthorName = data.authorName
+    self.defaultAuthorURI = data.authorURI
+    self.defaultTheme = data.themeUrl
+    self.latestVersion = data.latestVersion
+
+    cb()
+  })
+}
+
 // get the latest stable version of Wordpress
 Generator.prototype.getVersion = function getVersion() {
   var cb   = this.async()
     , self = this
-    , latestVersion = '3.5.2' // we still store the latest version to avoid throwing error
 
   this.log.writeln('')
   this.log.writeln('Trying to get the latest stable version of Wordpress')
-  self.latestVersion = latestVersion
 
   // try to get the latest version using the git tags
   try {
@@ -40,6 +61,12 @@ Generator.prototype.getVersion = function getVersion() {
                         , match = pattern.exec(stdout)
 
                       if (match !== null && typeof match[0] !== 'undefined') {
+                        // update config if needed
+                        if (self.latestVersion !== match[0]) {
+                          self.log.writeln('Updating config with latest version: '+match[0])
+                          config.updateWordpressVersion(match[0])
+                        }
+
                         self.latestVersion = match[0]
                         self.log.writeln('Latest version: '+self.latestVersion)
                       }
@@ -51,31 +78,6 @@ Generator.prototype.getVersion = function getVersion() {
   catch(e) {
     cb()
   }
-}
-
-// try to find the config file and read the infos to set the prompts default values
-Generator.prototype.getConfig = function getConfig() {
-  var cb   = this.async()
-    , self = this
-
-  self.defaultAuthorName = ''
-  self.defaultAuthorURI = ''
-  self.defaultTheme = 'https://github.com/automattic/_s'
-  self.configExists = false
-
-  config.getConfig(function(err, data) {
-    if (!err) {
-      self.defaultAuthorName = data.authorName || ''
-      self.defaultAuthorURI = data.authorURI || ''
-      self.defaultTheme = data.theme || self.defaultTheme
-
-      if (data.authorName && data.authorURI && data.defaultTheme) {
-        self.configExists = true
-      }
-    }
-
-    cb()
-  })
 }
 
 Generator.prototype.askFor = function askFor() {
