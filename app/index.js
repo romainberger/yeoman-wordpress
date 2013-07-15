@@ -31,8 +31,6 @@ Generator.prototype.getConfig = function getConfig() {
       self.configExists = true
     }
 
-    console.log(data)
-
     self.defaultAuthorName = data.authorName
     self.defaultAuthorURI = data.authorURI
     self.defaultTheme = data.themeUrl
