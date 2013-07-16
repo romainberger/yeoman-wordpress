@@ -1,5 +1,5 @@
 
-'use strict'
+'use strict';
 
 var util   = require('util')
   , path   = require('path')

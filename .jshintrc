@@ -1,4 +1,5 @@
 {
+    "node": true,
     "laxcomma": true,
     "asi": true
 }

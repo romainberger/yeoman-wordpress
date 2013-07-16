@@ -1,5 +1,5 @@
 
-'use strict'
+'use strict';
 
 var util   = require('util')
   , path   = require('path')
@@ -157,7 +157,7 @@ Generator.prototype.askFor = function askFor() {
 }
 
 // download the framework and unzip it in the project app/
-Generator.prototype.createApp = function createApp(cb) {
+Generator.prototype.createApp = function createApp() {
   var cb   = this.async()
     , self = this
 
@@ -174,7 +174,7 @@ Generator.prototype.createTheme = function createTheme() {
   this.log.writeln('First let\'s remove the built-in themes we will not use')
   // remove the existing themes
   fs.readdir('app/wp-content/themes', function(err, files) {
-    if (typeof files != 'undefined' && files.length != 0) {
+    if (typeof files != 'undefined' && files.length !== 0) {
       files.forEach(function(file) {
         var pathFile = fs.realpathSync('app/wp-content/themes/'+file)
           , isDirectory = fs.statSync(pathFile).isDirectory()
