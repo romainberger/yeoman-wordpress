@@ -1,4 +1,4 @@
-# Yeoman WordPress Generator
+# Yeoman WordPress Generator [![Build Status](https://secure.travis-ci.org/romainberger/yeoman-wordpress.png?branch=master)](http://travis-ci.org/romainberger/yeoman-wordpress)
 
   Yeoman generator for WordPress projects and plugins.
 
