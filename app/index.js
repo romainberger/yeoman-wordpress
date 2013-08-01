@@ -59,7 +59,7 @@ Generator.prototype.getVersion = function getVersion() {
                       var pattern = /\d\.\d[\.\d]*/ig
                         , match = pattern.exec(stdout)
 
-                      if (match !== null && typeof match[0] !== 'undefined') {
+                      if (match !== null && typeof match[0] !== 'undefined' && match[0] !== 'undefined') {
                         // update config if needed
                         if (semver.gt(match[0], self.latestVersion)) {
                           self.log.writeln('Updating config with latest version: '+match[0])
