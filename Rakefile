@@ -1,4 +1,6 @@
 
+task :default => :jshint
+
 task :jshint do
   files = [
     'app/index.js',
