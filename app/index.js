@@ -53,24 +53,24 @@ Generator.prototype.getVersion = function getVersion() {
   try {
     var version = exec('git ls-remote --tags git://github.com/WordPress/WordPress.git', function(err, stdout, stderr) {
       if (err !== null) {
-        console.log('exec error: ' + err);
+        console.log('exec error: ' + err)
       }
       else {
         var pattern = /\d\.\d[\.\d]*/ig
           , match = stdout.match(pattern)
-          , latest = match[match.length-1];
-        //
+          , latest = match[match.length-1]
+
         if (latest !== null && typeof latest !== 'undefined') {
           if (semver.valid(latest)) {
             // update config if needed
             if (semver.gt(latest, self.latestVersion)) {
-              self.log.writeln('Updating config with latest version: '+latest);
-              config.updateWordpressVersion(latest);
-            };
-          };
+              self.log.writeln('Updating config with latest version: '+latest)
+              config.updateWordpressVersion(latest)
+            }
+          }
 
-          self.latestVersion = latest;
-          self.log.writeln('Latest version: '+self.latestVersion);
+          self.latestVersion = latest
+          self.log.writeln('Latest version: '+self.latestVersion)
         }
       }
       cb()
