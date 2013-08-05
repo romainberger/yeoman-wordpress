@@ -53,7 +53,7 @@ Generator.prototype.getVersion = function getVersion() {
   try {
     var version = exec('git ls-remote --tags git://github.com/WordPress/WordPress.git', function(err, stdout, stderr) {
       if (err !== null) {
-        console.log('exec error: ' + err)
+        self.writeln('exec error: ' + err)
       }
       else {
         var pattern = /\d\.\d[\.\d]*/ig
