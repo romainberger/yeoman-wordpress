@@ -58,15 +58,18 @@ Generator.prototype.getVersion = function getVersion() {
       else {
         var pattern = /\d\.\d[\.\d]*/ig
           , match = stdout.match(pattern)
-          , latest = match[match.length-1]
+          , patternShort = /^\d\.\d$/
+          , semverLatestString = match[match.length-1]
+          , semverVersionString = self.latestVersion
+
+          if (semverLatestString.match(patternShort)) semverLatestString += '.0'
+          if (semverVersionString.match(patternShort)) semverVersionString += '.0'
 
         if (latest !== null && typeof latest !== 'undefined') {
-          if (semver.valid(latest)) {
-            // update config if needed
-            if (semver.gt(latest, self.latestVersion)) {
-              self.log.writeln('Updating config with latest version: '+latest)
-              config.updateWordpressVersion(latest)
-            }
+          // update config if needed
+          if (semver.gt(semverLatestString, semverVersionString)) {
+            self.log.writeln('Updating config with latest version: '+match[0])
+            config.updateWordpressVersion(match[0])
           }
 
           self.latestVersion = latest
