@@ -17,7 +17,7 @@ var home            = process.env.HOME || process.env.USERPROFILE
       authorName: ''
     , authorURI:  ''
     , themeUrl:   'https://github.com/automattic/_s'
-    , latestVersion: '3.5.1'
+    , latestVersion: '3.6'
   }
 
 /**
