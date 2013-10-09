@@ -10,6 +10,16 @@ module.exports = function( grunt ) {
     // Project configuration
     // ---------------------
 
+    connect: {
+      server: {
+        options: {
+          port: 35729,
+          hostname: 'localhost',
+          keepalive: true
+        }
+      }
+    },
+
     // specify an alternate install location for Bower
     bower: {
       dir: 'app/scripts/vendor'
@@ -180,17 +190,12 @@ module.exports = function( grunt ) {
 
     min: {
       dist: ''
-    },
-
-    // server port to match livereload browser extensions
-    // https://github.com/yeoman/yeoman/issues/250#issuecomment-8024212
-    server: {
-      port: 35729
     }
 
   });
 
   // Alias the `test` task to run the `mocha` task instead
   grunt.registerTask('test', 'mocha');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
 };
