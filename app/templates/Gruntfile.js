@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 
   // configurable paths
   var yeomanConfig = {
-    themeName: '<%= themeName %>';
+    themeName: '<%= themeName %>',
     dist: 'dist'
   };
 
