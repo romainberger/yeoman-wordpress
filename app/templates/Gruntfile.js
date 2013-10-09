@@ -1,201 +1,380 @@
-module.exports = function( grunt ) {
+module.exports = function(grunt) {
   'use strict';
-  //
-  // Grunt configuration:
-  //
-  // https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
-  //
+
+  // show elapsed time at the end
+  require('time-grunt')(grunt);
+  // load all grunt tasks
+  require('load-grunt-tasks')(grunt);
+
+  // configurable paths
+  var yeomanConfig = {
+    themeName: '<%= themeName %>';
+    dist: 'dist'
+  };
+
   grunt.initConfig({
-
-    // Project configuration
-    // ---------------------
-
-    connect: {
-      server: {
-        options: {
-          port: 35729,
-          hostname: 'localhost',
-          keepalive: true
-        }
-      }
-    },
-
-    // specify an alternate install location for Bower
-    bower: {
-      dir: 'app/scripts/vendor'
-    },
-
-    // Coffee to JS compilation
-    coffee: {
-      dist: {
-        src: 'app/wp-content/themes/<%= themeName %>/js/*.coffee',
-        dest: 'app/wp-content/themes/<%= themeName %>/js/*.js'
-      }
-    },
-
-    // compile .scss/.sass to .css using Compass
-    compass: {
-      dist: {
-        // http://compass-style.org/help/tutorials/configuration-reference/#configuration-properties
-        options: {
-          css_dir: 'app/wp-content/themes/<%= themeName %>',
-          sass_dir: 'app/wp-content/themes/<%= themeName %>',
-          images_dir: 'app/wp-content/themes/<%= themeName %>/images',
-          javascripts_dir: 'app/wp-content/themes/<%= themeName %>/js',
-          force: true
-        }
-      }
-    },
-
-    // generate application cache manifest
-    manifest:{
-      dest: ''
-    },
-
-    // headless testing through PhantomJS
-    mocha: {
-      all: ['test/**/*.html']
-    },
-
-    // default watch configuration
+    yeoman: yeomanConfig,
     watch: {
       coffee: {
-        files: '<config:coffee.dist.src>',
-        tasks: 'coffee reload'
+        files: ['app/wp-content/themes/<%%= yeomanConfig.themeName %>/js/*.coffee'],
+        tasks: ['coffee:dist']
+      },
+      coffeeTest: {
+        files: ['test/spec/{,*/}*.coffee'],
+        tasks: ['coffee:test']
       },
       compass: {
-        files: [
-          'app/wp-content/themes/<%= themeName %>/*.{scss,sass}'
-        ],
-        tasks: 'compass reload'
+        files: ['app/wp-content/themes/<%%= yeomanConfig.themeName %>'],
+        tasks: ['compass:server', 'autoprefixer']
       },
-      reload: {
+      styles: {
+        files: ['app/wp-content/themes/<%%= yeomanConfig.themeName %>'],
+        tasks: ['copy:styles', 'autoprefixer']
+      },
+      livereload: {
+        options: {
+          livereload: '<%%= connect.options.livereload %>'
+        },
         files: [
-          'app/wp-content/themes/<%= themeName %>/*.php',
-          'app/wp-content/themes/<%= themeName %>/*.css',
-          'app/wp-content/themes/<%= themeName %>/js/*.js',
-          'app/wp-content/themes/<%= themeName %>/images/*'
-        ],
-        tasks: 'reload'
+          'app/wp-content/themes/<%%= yeomanConfig.themeName %>/*.php',
+          'app/wp-content/themes/<%%= yeomanConfig.themeName %>/*.css',
+          'app/wp-content/themes/<%%= yeomanConfig.themeName %>/js/*.js',
+          'app/wp-content/themes/<%%= yeomanConfig.themeName %>/images/*'
+        ]
       }
     },
-
-    // default lint configuration, change this to match your setup:
-    // https://github.com/cowboy/grunt/blob/master/docs/task_lint.md#lint-built-in-task
-    lint: {
-      files: [
-        'Gruntfile.js',
-        'app/wp-content/themes/<%= themeName %>/js/*.js'
-      ]
-    },
-
-    // specifying JSHint options and globals
-    // https://github.com/cowboy/grunt/blob/master/docs/task_lint.md#specifying-jshint-options-and-globals
-    jshint: {
+    connect: {
       options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        browser: true
+        port: 9000,
+        livereload: 35729,
+        // change this to '0.0.0.0' to access the server from outside
+        hostname: 'localhost'
       },
-      globals: {
-        jQuery: true
+      livereload: {
+        options: {
+          open: true,
+          base: [
+            '.tmp',
+            'app/wp-content/themes/<%%= yeomanConfig.themeName %>'
+          ]
+        }
+      },
+      test: {
+        options: {
+          base: [
+            '.tmp',
+            'test',
+            'app/wp-content/themes/<%%= yeomanConfig.themeName %>'
+          ]
+        }
+      },
+      dist: {
+        options: {
+          open: true,
+          base: yeomanConfig.dist
+        }
       }
     },
-
-    // Build configuration
-    // -------------------
-
-    // the staging directory used during the process
-    staging: 'temp',
-    // final build output
-    output: 'dist',
-
-    mkdirs: {
-      staging: 'app/'
+    clean: {
+        dist: {
+            files: [{
+                dot: true,
+                src: [
+                    '.tmp',
+                    '<%%= yeomanConfig %>/*',
+                    '!<%%= yeomanConfig %>/.git*'
+                ]
+            }]
+        },
+        server: '.tmp'
     },
-
-    // Below, all paths are relative to the staging directory, which is a copy
-    // of the app/ directory. Any .gitignore, .ignore and .buildignore file
-    // that might appear in the app/ tree are used to ignore these values
-    // during the copy process.
-
-    // concat css/**/*.css files, inline @import, output a single minified css
-    css: {
-      'wp-content/themes/<%= themeName %>/style.css': ['wp-content/themes/<%= themeName %>/*.css']
+    jshint: {
+        options: {
+            jshintrc: '.jshintrc'
+        },
+        all: [
+            'Gruntfile.js',
+            'app/wp-content/themes/<%%= yeomanConfig.themeName %>/js/{,*/}*.js',
+            '!app/wp-content/themes/<%%= yeomanConfig.themeName %>/js/vendor/*',
+            'test/spec/{,*/}*.js'
+        ]
     },
-
-    //'styles/main.css': ['styles/**/*.css']
-
-    // renames JS/CSS to prepend a hash of their contents for easier
-    // versioning
-    // disabled to make it work with wordpress
+    mocha: {
+        all: {
+            options: {
+                run: true,
+                urls: ['http://<%%= connect.test.options.hostname %>:<%%= connect.test.options.port %>/index.html']
+            }
+        }
+    },
+    coffee: {
+        dist: {
+            files: [{
+                expand: true,
+                cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/js',
+                src: '{,*/}*.coffee',
+                dest: '.tmp/scripts',
+                ext: '.js'
+            }]
+        },
+        test: {
+            files: [{
+                expand: true,
+                cwd: 'test/spec',
+                src: '{,*/}*.coffee',
+                dest: '.tmp/spec',
+                ext: '.js'
+            }]
+        }
+    },
+    compass: {
+        options: {
+            sassDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>',
+            cssDir: '.tmp/styles',
+            generatedImagesDir: '.tmp/images/generated',
+            imagesDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/img',
+            javascriptsDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/js',
+            fontsDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/styles/fonts',
+            importPath: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/bower_components',
+            httpImagesPath: '/images',
+            httpGeneratedImagesPath: '/images/generated',
+            httpFontsPath: '/styles/fonts',
+            relativeAssets: false
+        },
+        dist: {
+            options: {
+                generatedImagesDir: '<%%= yeomanConfig %>/images/generated'
+            }
+        },
+        server: {
+            options: {
+                debugInfo: true
+            }
+        }
+    },
+    autoprefixer: {
+        options: {
+            browsers: ['last 1 version']
+        },
+        dist: {
+            files: [{
+                expand: true,
+                cwd: '.tmp/styles/',
+                src: '{,*/}*.css',
+                dest: '.tmp/styles/'
+            }]
+        }
+    },
+    // not used since Uglify task does concat,
+    // but still available if needed
+    /*concat: {
+        dist: {}
+    },*/
+    requirejs: {
+        dist: {
+            // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
+            options: {
+                // `name` and `out` is set by grunt-usemin
+                baseUrl: yeomanConfig.app + '/scripts',
+                optimize: 'none',
+                // TODO: Figure out how to make sourcemaps work with grunt-usemin
+                // https://github.com/yeoman/grunt-usemin/issues/30
+                //generateSourceMaps: true,
+                // required to support SourceMaps
+                // http://requirejs.org/docs/errors.html#sourcemapcomments
+                preserveLicenseComments: false,
+                useStrict: true,
+                wrap: true
+                //uglify2: {} // https://github.com/mishoo/UglifyJS2
+            }
+        }
+    },
     rev: {
-//      js: 'wp-content/themes/<%= themeName %>/js/*.js',
-//      css: 'wp-content/themes/<%= themeName %>/*.css',
-      img: 'wp-content/themes/<%= themeName %>/images/**'
+        dist: {
+            files: {
+                src: [
+                    '<%%= yeomanConfig %>/scripts/{,*/}*.js',
+                    '<%%= yeomanConfig %>/styles/{,*/}*.css',
+                    '<%%= yeomanConfig %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                    '<%%= yeomanConfig %>/styles/fonts/{,*/}*.*'
+                ]
+            }
+        }
     },
-
-    // usemin handler should point to the file containing
-    // the usemin blocks to be parsed
-    'usemin-handler': {
-      html: 'index.html'
+    useminPrepare: {
+        options: {
+            dest: '<%%= yeomanConfig %>'
+        },
+        html: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/index.html'
     },
-
-    // update references in HTML/CSS to revved files
     usemin: {
-      html: ['**/*.html'],
-      css: ['**/*.css']
+        options: {
+            dirs: ['<%%= yeomanConfig %>']
+        },
+        html: ['<%%= yeomanConfig %>/{,*/}*.html'],
+        css: ['<%%= yeomanConfig %>/styles/{,*/}*.css']
     },
-
-    // HTML minification
-    html: {
-      files: ['**/*.html']
+    imagemin: {
+        dist: {
+            files: [{
+                expand: true,
+                cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/images',
+                src: '{,*/}*.{png,jpg,jpeg}',
+                dest: '<%%= yeomanConfig %>/images'
+            }]
+        }
     },
-
-    // Optimizes JPGs and PNGs (with jpegtran & optipng)
-    img: {
-      dist: '<config:rev.img>'
+    svgmin: {
+        dist: {
+            files: [{
+                expand: true,
+                cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/images',
+                src: '{,*/}*.svg',
+                dest: '<%%= yeomanConfig %>/images'
+            }]
+        }
     },
-
-    // rjs configuration. You don't necessarily need to specify the typical
-    // `path` configuration, the rjs task will parse these values from your
-    // main module, using http://requirejs.org/docs/optimization.html#mainConfigFile
-    //
-    // name / out / mainConfig file should be used. You can let it blank if
-    // you're using usemin-handler to parse rjs config from markup (default
-    // setup)
-    rjs: {
-      // no minification, is done by the min task
-      mainFile: './wp-content/themes/<%= themeName %>/footer.php',
-      optimize: 'none',
-      baseUrl: './wp-content/themes/<%= themeName %>/js',
-      wrap: true,
-      name: 'main',
-      out: 'wp-content/themes/<%= themeName %>/js/script.js'
+    cssmin: {
+        // This task is pre-configured if you do not wish to use Usemin
+        // blocks for your CSS. By default, the Usemin block from your
+        // `index.html` will take care of minification, e.g.
+        //
+        //     <!-- build:css({.tmp,app}) styles/main.css -->
+        //
+        // dist: {
+        //     files: {
+        //         '<%%= yeomanConfig %>/styles/main.css': [
+        //             '.tmp/styles/{,*/}*.css',
+        //             'app/wp-content/themes/<%%= yeomanConfig.themeName %>/styles/{,*/}*.css'
+        //         ]
+        //     }
+        // }
     },
-
-    // While Yeoman handles concat/min when using
-    // usemin blocks, you can still use them manually
-    concat: {
-      dist: ''
+    htmlmin: {
+        dist: {
+            options: {
+                /*removeCommentsFromCDATA: true,
+                // https://github.com/yeoman/grunt-usemin/issues/44
+                //collapseWhitespace: true,
+                collapseBooleanAttributes: true,
+                removeAttributeQuotes: true,
+                removeRedundantAttributes: true,
+                useShortDoctype: true,
+                removeEmptyAttributes: true,
+                removeOptionalTags: true*/
+            },
+            files: [{
+                expand: true,
+                cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>',
+                src: '*.html',
+                dest: '<%%= yeomanConfig %>'
+            }]
+        }
     },
-
-    min: {
-      dist: ''
+    // Put files not handled in other tasks here
+    copy: {
+        dist: {
+            files: [{
+                expand: true,
+                dot: true,
+                cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>',
+                dest: '<%%= yeomanConfig %>',
+                src: [
+                    '*.{ico,png,txt}',
+                    '.htaccess',
+                    'images/{,*/}*.{webp,gif}',
+                    'styles/fonts/{,*/}*.*',
+                    'bower_components/sass-bootstrap/fonts/*.*'
+                ]
+            }]
+        },
+        styles: {
+            expand: true,
+            dot: true,
+            cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/styles',
+            dest: '.tmp/styles/',
+            src: '{,*/}*.css'
+        }
+    },
+    modernizr: {
+        devFile: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/bower_components/modernizr/modernizr.js',
+        outputFile: '<%%= yeomanConfig %>/bower_components/modernizr/modernizr.js',
+        files: [
+            '<%%= yeomanConfig %>/scripts/{,*/}*.js',
+            '<%%= yeomanConfig %>/styles/{,*/}*.css',
+            '!<%%= yeomanConfig %>/scripts/vendor/*'
+        ],
+        uglify: true
+    },
+    concurrent: {
+        server: [
+            'compass',
+            'coffee:dist',
+            'copy:styles'
+        ],
+        test: [
+            'coffee',
+            'copy:styles'
+        ],
+        dist: [
+            'coffee',
+            'compass',
+            'copy:styles',
+            'imagemin',
+            'svgmin',
+            'htmlmin'
+        ]
+    },
+    bower: {
+        options: {
+            exclude: ['modernizr']
+        },
+        all: {
+            rjsConfig: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/scripts/main.js'
+        }
     }
-
   });
 
-  // Alias the `test` task to run the `mocha` task instead
-  grunt.registerTask('test', 'mocha');
-  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.registerTask('server', function (target) {
+      if (target === 'dist') {
+          return grunt.task.run(['build', 'connect:dist:keepalive']);
+      }
 
+      grunt.task.run([
+          'clean:server',
+          'concurrent:server',
+          'autoprefixer',
+          'connect:livereload',
+          'watch'
+      ]);
+  });
+
+  grunt.registerTask('test', [
+      'clean:server',
+      'concurrent:test',
+      'autoprefixer',
+      'connect:test',
+      'mocha'
+  ]);
+
+  grunt.registerTask('build', [
+      'clean:dist',
+      'useminPrepare',
+      'concurrent:dist',
+      'autoprefixer',
+      'requirejs',
+      'concat',
+      'cssmin',
+      'uglify',
+      'modernizr',
+      'copy:dist',
+      'rev',
+      'usemin'
+  ]);
+
+  grunt.registerTask('default', [
+      'jshint',
+      'test',
+      'build'
+  ]);
 };
