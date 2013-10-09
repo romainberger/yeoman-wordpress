@@ -12,10 +12,14 @@ var util   = require('util')
 
 module.exports = Generator
 
-function Generator() {
+function Generator(args, options) {
   yeoman.generators.Base.apply(this, arguments)
 
   this.sourceRoot(path.join(__dirname, 'templates'))
+
+  this.on('end', function() {
+    this.installDependencies({skipInstall: options['skip-install']})
+  })
 }
 
 util.inherits(Generator, yeoman.generators.NamedBase)
