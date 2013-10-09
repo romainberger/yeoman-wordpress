@@ -12,7 +12,7 @@ module.exports = function(grunt) {
   }
 
   grunt.initConfig({
-    yeoman: yeomanConfig,
+    yeomanConfig: yeomanConfig,
     watch: {
       coffee: {
         files: ['app/wp-content/themes/<%%= yeomanConfig.themeName %>/js/*.coffee'],
