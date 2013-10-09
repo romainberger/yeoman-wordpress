@@ -6,11 +6,10 @@ module.exports = function(grunt) {
   // load all grunt tasks
   require('load-grunt-tasks')(grunt);
 
-  // configurable paths
   var yeomanConfig = {
     themeName: '<%= themeName %>',
     dist: 'dist'
-  };
+  }
 
   grunt.initConfig({
     yeoman: yeomanConfig,
@@ -81,8 +80,8 @@ module.exports = function(grunt) {
                 dot: true,
                 src: [
                     '.tmp',
-                    '<%%= yeomanConfig %>/*',
-                    '!<%%= yeomanConfig %>/.git*'
+                    '<%%= yeomanConfig.dist %>/*',
+                    '!<%%= yeomanConfig.dist %>/.git*'
                 ]
             }]
         },
@@ -134,16 +133,16 @@ module.exports = function(grunt) {
             generatedImagesDir: '.tmp/images/generated',
             imagesDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/img',
             javascriptsDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/js',
-            fontsDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/styles/fonts',
+            fontsDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/css/fonts',
             importPath: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/bower_components',
             httpImagesPath: '/images',
             httpGeneratedImagesPath: '/images/generated',
-            httpFontsPath: '/styles/fonts',
+            httpFontsPath: '/css/fonts',
             relativeAssets: false
         },
         dist: {
             options: {
-                generatedImagesDir: '<%%= yeomanConfig %>/images/generated'
+                generatedImagesDir: '<%%= yeomanConfig.dist %>/img/generated'
             }
         },
         server: {
@@ -175,7 +174,7 @@ module.exports = function(grunt) {
             // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
             options: {
                 // `name` and `out` is set by grunt-usemin
-                baseUrl: yeomanConfig.app + '/scripts',
+                baseUrl: 'app/wp-content/themes/'+yeomanConfig.themeName+'/js',
                 optimize: 'none',
                 // TODO: Figure out how to make sourcemaps work with grunt-usemin
                 // https://github.com/yeoman/grunt-usemin/issues/30
@@ -193,26 +192,26 @@ module.exports = function(grunt) {
         dist: {
             files: {
                 src: [
-                    '<%%= yeomanConfig %>/scripts/{,*/}*.js',
-                    '<%%= yeomanConfig %>/styles/{,*/}*.css',
-                    '<%%= yeomanConfig %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-                    '<%%= yeomanConfig %>/styles/fonts/{,*/}*.*'
+                    '<%%= yeomanConfig.dist %>/scripts/{,*/}*.js',
+                    '<%%= yeomanConfig.dist %>/styles/{,*/}*.css',
+                    '<%%= yeomanConfig.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                    '<%%= yeomanConfig.dist %>/styles/fonts/{,*/}*.*'
                 ]
             }
         }
     },
     useminPrepare: {
         options: {
-            dest: '<%%= yeomanConfig %>'
+            dest: '<%%= yeomanConfig.dist %>'
         },
         html: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/index.html'
     },
     usemin: {
         options: {
-            dirs: ['<%%= yeomanConfig %>']
+            dirs: ['<%%= yeomanConfig.dist %>']
         },
-        html: ['<%%= yeomanConfig %>/{,*/}*.html'],
-        css: ['<%%= yeomanConfig %>/styles/{,*/}*.css']
+        html: ['<%%= yeomanConfig.dist %>/{,*/}*.html'],
+        css: ['<%%= yeomanConfig.dist %>/styles/{,*/}*.css']
     },
     imagemin: {
         dist: {
@@ -220,7 +219,7 @@ module.exports = function(grunt) {
                 expand: true,
                 cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/images',
                 src: '{,*/}*.{png,jpg,jpeg}',
-                dest: '<%%= yeomanConfig %>/images'
+                dest: '<%%= yeomanConfig.dist %>/images'
             }]
         }
     },
@@ -230,7 +229,7 @@ module.exports = function(grunt) {
                 expand: true,
                 cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/images',
                 src: '{,*/}*.svg',
-                dest: '<%%= yeomanConfig %>/images'
+                dest: '<%%= yeomanConfig.dist %>/images'
             }]
         }
     },
@@ -243,7 +242,7 @@ module.exports = function(grunt) {
         //
         // dist: {
         //     files: {
-        //         '<%%= yeomanConfig %>/styles/main.css': [
+        //         'app/wp-content/themes/<%%= yeomanConfig.themeName %>/style.css': [
         //             '.tmp/styles/{,*/}*.css',
         //             'app/wp-content/themes/<%%= yeomanConfig.themeName %>/styles/{,*/}*.css'
         //         ]
@@ -267,7 +266,7 @@ module.exports = function(grunt) {
                 expand: true,
                 cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>',
                 src: '*.html',
-                dest: '<%%= yeomanConfig %>'
+                dest: '<%%= yeomanConfig.dist %>'
             }]
         }
     },
@@ -278,7 +277,7 @@ module.exports = function(grunt) {
                 expand: true,
                 dot: true,
                 cwd: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>',
-                dest: '<%%= yeomanConfig %>',
+                dest: '<%%= yeomanConfig.dist %>',
                 src: [
                     '*.{ico,png,txt}',
                     '.htaccess',
@@ -298,11 +297,11 @@ module.exports = function(grunt) {
     },
     modernizr: {
         devFile: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/bower_components/modernizr/modernizr.js',
-        outputFile: '<%%= yeomanConfig %>/bower_components/modernizr/modernizr.js',
+        outputFile: '<%%= yeomanConfig.dist %>/bower_components/modernizr/modernizr.js',
         files: [
-            '<%%= yeomanConfig %>/scripts/{,*/}*.js',
-            '<%%= yeomanConfig %>/styles/{,*/}*.css',
-            '!<%%= yeomanConfig %>/scripts/vendor/*'
+            '<%%= yeomanConfig.dist %>/scripts/{,*/}*.js',
+            '<%%= yeomanConfig.dist %>/styles/{,*/}*.css',
+            '!<%%= yeomanConfig.dist %>/scripts/vendor/*'
         ],
         uglify: true
     },
