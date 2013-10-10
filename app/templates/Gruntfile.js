@@ -23,11 +23,11 @@ module.exports = function(grunt) {
         tasks: ['coffee:test']
       },
       compass: {
-        files: ['app/wp-content/themes/<%%= yeomanConfig.themeName %>'],
+        files: ['app/wp-content/themes/<%= yeomanConfig.themeName %>/{,*/}*.{scss,sass}'],
         tasks: ['compass:server', 'autoprefixer']
       },
       styles: {
-        files: ['app/wp-content/themes/<%%= yeomanConfig.themeName %>'],
+        files: ['app/wp-content/themes/<%= yeomanConfig.themeName %>/{,*/}*.css'],
         tasks: ['copy:styles', 'autoprefixer']
       },
       livereload: {
@@ -128,16 +128,15 @@ module.exports = function(grunt) {
     },
     compass: {
         options: {
-            sassDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>',
-            cssDir: '.tmp/styles',
-            generatedImagesDir: '.tmp/images/generated',
-            imagesDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/img',
-            javascriptsDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/js',
-            fontsDir: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/css/fonts',
-            importPath: 'app/wp-content/themes/<%%= yeomanConfig.themeName %>/bower_components',
-            httpImagesPath: '/images',
-            httpGeneratedImagesPath: '/images/generated',
-            httpFontsPath: '/css/fonts',
+            sassDir: 'app/wp-content/themes/<%= yeomanConfig.themeName %>',
+            cssDir: 'app/wp-content/themes/<%= yeomanConfig.themeName %>',
+            generatedImagesDir: 'app/wp-content/themes/<%= yeomanConfig.themeName %>/img',
+            imagesDir: 'app/wp-content/themes/<%= yeomanConfig.themeName %>/img',
+            javascriptsDir: 'app/wp-content/themes/<%= yeomanConfig.themeName %>/js',
+            fontsDir: 'app/wp-content/themes/<%= yeomanConfig.themeName %>/css/fonts',
+            httpImagesPath: '/wp-content/themes/<%= yeomanConfig.themeName %>/img',
+            httpGeneratedImagesPath: '/wp-content/themes/<%= yeomanConfig.themeName %>/img',
+            httpFontsPath: '/wp-content/themes/<%= yeomanConfig.themeName %>/fonts',
             relativeAssets: false
         },
         dist: {
