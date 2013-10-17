@@ -61,18 +61,20 @@ Generator.prototype.editFiles = function editFiles() {
     , self     = this
     , safeName = self.pluginName.replace(/\ /g, '');
 
-  fs.rename('app/wp-content/plugins/plugin-boilerplate', 'app/wp-content/plugins/'+safeName, function() {
-    var pluginFile = 'app/wp-content/plugins/'+safeName+'/plugin.php'
+  fs.rename('app/wp-content/plugins/plugin-name', 'app/wp-content/plugins/'+safeName, function() {
+    fs.rename('app/wp-content/plugins/'+safeName+'/plugin-name.php', 'app/wp-content/plugins/'+safeName+'/'+safeName+'.php', function() {
+      var pluginFile = 'app/wp-content/plugins/'+safeName+'/'+safeName+'.php'
 
-    fs.readFile(pluginFile, 'utf8', function (err, data) {
-      if (err) throw err
+      fs.readFile(pluginFile, 'utf8', function(err, data) {
+        if (err) throw err
 
-      data = data.replace(/^.*Plugin Name: .*$/mg, 'Plugin Name: ' + self.pluginName)
-      data = data.replace(/^.*Author: .*$/mg, 'Author: ' + self.pluginAuthor)
+        data = data.replace(/^.*Plugin Name: .*$/mg, ' * Plugin Name: ' + self.pluginName)
+        data = data.replace(/^.*Author: .*$/mg, ' * Author: ' + self.pluginAuthor)
 
-      fs.writeFile(pluginFile, data)
-      fs.unlink('app/wp-content/plugins/README.md', function() {
-        cb()
+        fs.writeFile(pluginFile, data)
+        fs.unlink('app/wp-content/plugins/README.md', function() {
+          cb()
+        })
       })
     })
   })
