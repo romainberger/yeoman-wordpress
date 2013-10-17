@@ -68,8 +68,8 @@ Generator.prototype.editFiles = function editFiles() {
       fs.readFile(pluginFile, 'utf8', function(err, data) {
         if (err) throw err
 
-        data = data.replace(/^.*Plugin Name: .*$/mg, 'Plugin Name: ' + self.pluginName)
-        data = data.replace(/^.*Author: .*$/mg, 'Author: ' + self.pluginAuthor)
+        data = data.replace(/^.*Plugin Name: .*$/mg, ' * Plugin Name: ' + self.pluginName)
+        data = data.replace(/^.*Author: .*$/mg, ' * Author: ' + self.pluginAuthor)
 
         fs.writeFile(pluginFile, data)
         fs.unlink('app/wp-content/plugins/README.md', function() {
