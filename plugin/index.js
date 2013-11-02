@@ -53,7 +53,7 @@ Generator.prototype.askFor = function askFor() {
 Generator.prototype.createPlugin = function createPlugin() {
   var cb = this.async()
 
-  this.tarball('https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/tarball/master', 'app/wp-content/plugins', cb)
+  this.tarball('https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/archive/master.zip', 'app/wp-content/plugins', cb)
 }
 
 Generator.prototype.editFiles = function editFiles() {
