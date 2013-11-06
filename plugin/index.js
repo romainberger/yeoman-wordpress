@@ -45,25 +45,34 @@ Generator.prototype.askFor = function askFor() {
   this.prompt(prompts, function(props) {
     self.pluginName   = props.pluginName
     self.pluginAuthor = props.pluginAuthor
+    self.safeName     = self.pluginName.replace(/\ /g, '');
 
     cb()
   })
 }
 
 Generator.prototype.createPlugin = function createPlugin() {
-  var cb = this.async()
+  var cb   = this.async()
+    , self = this
 
-  this.tarball('https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/tarball/master', 'app/wp-content/plugins', cb)
+//  this.tarball('https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/tarball/master.zip', 'app/wp-content/plugins', cb)
+  this.remote('tommcfarlin', 'WordPress-Plugin-Boilerplate', '2.6.0', function(err, remote) {
+    if (err) {
+      return cb(err)
+    }
+
+    remote.directory('plugin-name', 'app/wp-content/plugins/'+self.safeName)
+    cb()
+  })
 }
 
 Generator.prototype.editFiles = function editFiles() {
-  var cb       = this.async()
-    , self     = this
-    , safeName = self.pluginName.replace(/\ /g, '');
+  var cb   = this.async()
+    , self = this
 
-  fs.rename('app/wp-content/plugins/plugin-name', 'app/wp-content/plugins/'+safeName, function() {
-    fs.rename('app/wp-content/plugins/'+safeName+'/plugin-name.php', 'app/wp-content/plugins/'+safeName+'/'+safeName+'.php', function() {
-      var pluginFile = 'app/wp-content/plugins/'+safeName+'/'+safeName+'.php'
+  fs.rename('app/wp-content/plugins/plugin-name', 'app/wp-content/plugins/'+self.safeName, function() {
+    fs.rename('app/wp-content/plugins/'+self.safeName+'/plugin-name.php', 'app/wp-content/plugins/'+self.safeName+'/'+self.safeName+'.php', function() {
+      var pluginFile = 'app/wp-content/plugins/'+self.safeName+'/'+self.safeName+'.php'
 
       fs.readFile(pluginFile, 'utf8', function(err, data) {
         if (err) throw err
