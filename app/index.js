@@ -138,16 +138,16 @@ Generator.prototype.askFor = function askFor() {
     self.authorName = props.authorName
     self.authorURI = props.authorURI
 
-    // check if the user only gave the repo url or the entire url with /tarball/{branch}
-    var tarballLink = (/[.]*tarball\/[.]*/).test(self.themeBoilerplate)
+    // check if the user only gave the repo url or the entire url with /archive/{branch}.tar.gz
+    var tarballLink = (/[.]*archive\/[.]*.*.tar.gz/).test(self.themeBoilerplate)
     if (!tarballLink) {
       // if the user gave the repo url we add the end of the url. we assume he wants the master branch
       var lastChar = self.themeBoilerplate.substring(self.themeBoilerplate.length - 1)
       if (lastChar === '/') {
-        self.themeBoilerplate = self.themeBoilerplate+'tarball/master'
+        self.themeBoilerplate = self.themeBoilerplate+'archive/master.tar.gz'
       }
       else {
-        self.themeBoilerplate = self.themeBoilerplate+'/tarball/master'
+        self.themeBoilerplate = self.themeBoilerplate+'/archive/master.tar.gz'
       }
     }
 
@@ -173,7 +173,7 @@ Generator.prototype.createApp = function createApp() {
 
   this.log.writeln('Let\'s download the framework, shall we?')
   this.log.writeln('Downloading Wordpress version '+self.wordpressVersion)
-  this.tarball('https://github.com/WordPress/WordPress/tarball/'+self.wordpressVersion, 'app', cb)
+  this.tarball('https://github.com/WordPress/WordPress/archive/'+self.wordpressVersion+'.tar.gz', 'app', cb)
 }
 
 // remove the basic theme and create a new one
