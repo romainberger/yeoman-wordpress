@@ -30,7 +30,7 @@ Yeoman-WordPress stores some defaults values so you won't have to type the same 
 
 ## Bug/Issue reporting
 
-Apart from clearly explaining the isssue please provide following output informations from your terminal:
+Apart from clearly explaining the isssue please provide the following output informations from your terminal:
 
   + `node -v`
 
