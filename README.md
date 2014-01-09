@@ -26,7 +26,7 @@
 
 ## Bug/Issue reporting
 
-  Apart from clearly expalining the isssue please provide follwing output information from your terminal :
+  Apart from clearly expalining the isssue please provide following output information from your terminal :
 
   + `node -v`
 
