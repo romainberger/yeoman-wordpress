@@ -26,7 +26,7 @@
 
 ## Bug/Issue reporting
 
-  Please provide follwing output information from your terminal :
+  Apart from clearly expalining the isssue please provide follwing output information from your terminal :
 
   + `node -v`
 
@@ -34,6 +34,6 @@
 
   + `yo -v`
 
-  + and Operating system you working on.
+  and Operating system you working on.
 
 
