@@ -1,4 +1,3 @@
-
 'use strict';
 
 var util   = require('util')
@@ -69,11 +68,8 @@ Generator.prototype.createPlugin = function createPlugin() {
 Generator.prototype.editFiles = function editFiles() {
   var cb   = this.async()
     , self = this
-
-  fs.rename('app/wp-content/plugins/plugin-name', 'app/wp-content/plugins/'+self.safeName, function() {
     fs.rename('app/wp-content/plugins/'+self.safeName+'/plugin-name.php', 'app/wp-content/plugins/'+self.safeName+'/'+self.safeName+'.php', function() {
       var pluginFile = 'app/wp-content/plugins/'+self.safeName+'/'+self.safeName+'.php'
-
       fs.readFile(pluginFile, 'utf8', function(err, data) {
         if (err) throw err
 
@@ -82,8 +78,7 @@ Generator.prototype.editFiles = function editFiles() {
 
         fs.writeFile(pluginFile, data)
         fs.unlink('app/wp-content/plugins/README.md', function() {
-          cb()
-        })
+        cb()
       })
     })
   })
